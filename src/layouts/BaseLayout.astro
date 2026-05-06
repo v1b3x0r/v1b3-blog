@@ -1,0 +1,39 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "v1b3x0r",
+  description = "97's INTP Guy in Chiang Mai. Small systems, weird worlds, and projects that turn signals into meaning.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">v1b3x0r</a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="/#projects">projects</a>
+        <a href="https://github.com/v1b3x0r">github</a>
+      </nav>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      97's INTP Guy in Chiang Mai. Built as static HTML with Astro.
+    </footer>
+  </body>
+</html>
