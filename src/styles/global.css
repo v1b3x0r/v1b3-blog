@@ -244,6 +244,31 @@ main,
   font-size: 1.15rem;
 }
 
+.related-projects {
+  margin: 0 0 2.5rem;
+  padding-block: 1rem;
+  border-block: 1px solid var(--line);
+}
+
+.related-projects h2 {
+  margin: 0 0 0.75rem;
+}
+
+.related-projects a {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.related-projects span {
+  font-size: 1rem;
+}
+
+.related-projects small {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
 .project-article h2 {
   margin-top: 2.25rem;
   font-size: 1rem;

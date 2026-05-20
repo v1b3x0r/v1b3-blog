@@ -13,6 +13,14 @@ const projects = defineCollection({
     site: z.string().url().optional(),
     siteLabel: z.string().optional(),
     repo: z.string().url().optional(),
+    relatedProjects: z
+      .array(
+        z.object({
+          slug: z.string(),
+          note: z.string(),
+        }),
+      )
+      .default([]),
     featured: z.boolean().default(false),
     order: z.number().int(),
   }),

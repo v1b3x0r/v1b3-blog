@@ -6,6 +6,9 @@ kind: "space access system"
 stack: ["LINE LIFF", "SvelteKit", "FastAPI", "PostgreSQL", "relay hardware", "field ops"]
 site: "https://viibe.to/homelog"
 siteLabel: "view HomeLog page"
+relatedProjects:
+  - slug: "mds"
+    note: "MDS is the meaning-first architecture lens; HomeLog is where roles, passes, and space context become strict."
 featured: true
 order: 3
 ---
@@ -68,6 +71,12 @@ Rough single-access service anchors have been discussed around 1,000-2,000 THB/m
 The difficult part is not just making a relay click. It is keeping the meaning clean across LINE entry, pass links, role permissions, API payloads, timeline copy, hardware state, and production ops.
 
 When identity or access semantics matter, HomeLog should prefer explicit metadata over inference. Missing or invalid semantic metadata should fail closed. Legacy compatibility belongs in migration or translation layers, not in runtime logic that decides who can enter a real place.
+
+This is where HomeLog connects back to MDS. MDS is the meaning-first architecture lens: world, entity, essence, memory, relationship, cognition, and context moving through a semantic bus.
+
+HomeLog translates that ontology into a production model: human, space, membership, role, pass, presence, runtime intent, and event memory. The translation has to be stricter than a simulation because a role mistake is not just a weird outcome; it can open the wrong gate for the wrong person.
+
+The future runtime version is simple: HomeLog's timeline becomes a semantic bus into MDS. HomeLog keeps authority over access and permissions. MDS interprets the stream into living context: presence, trust, routines, anomalies, and the emotional texture of a space.
 
 ## What it taught me
 

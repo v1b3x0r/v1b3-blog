@@ -7,12 +7,19 @@ export async function getStaticPaths() {
 
   return projects.map((project) => ({
     params: { slug: project.id },
-    props: { project },
+    props: { project, projects },
   }));
 }
 
-const { project } = Astro.props;
+const { project, projects } = Astro.props;
 const { Content } = await render(project);
+const relatedProjects = project.data.relatedProjects
+  .map((relation) => {
+    const relatedProject = projects.find((item) => item.id === relation.slug);
+
+    return relatedProject ? { ...relation, project: relatedProject } : null;
+  })
+  .filter((relation) => relation !== null);
 ---
 
 <BaseLayout title={`${project.data.title} / v1b3x0r`} description={project.data.summary}>
@@ -31,6 +38,19 @@ const { Content } = await render(project);
     <article class="project-article">
       <h1>{project.data.title}</h1>
       <p class="summary">{project.data.summary}</p>
+      {
+        relatedProjects.length > 0 && (
+          <section class="related-projects" aria-labelledby="related-projects-title">
+            <h2 id="related-projects-title">Related project</h2>
+            {relatedProjects.map((relation) => (
+              <a href={`/projects/${relation.project.id}/`}>
+                <span>{relation.project.data.title}</span>
+                <small>{relation.note}</small>
+              </a>
+            ))}
+          </section>
+        )
+      }
       <Content />
     </article>
   </main>
