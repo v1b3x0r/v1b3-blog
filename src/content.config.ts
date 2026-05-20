@@ -10,6 +10,8 @@ const projects = defineCollection({
     status: z.enum(["active", "experimental", "archived", "private-context"]),
     kind: z.string(),
     stack: z.array(z.string()),
+    site: z.string().url().optional(),
+    siteLabel: z.string().optional(),
     repo: z.string().url().optional(),
     featured: z.boolean().default(false),
     order: z.number().int(),

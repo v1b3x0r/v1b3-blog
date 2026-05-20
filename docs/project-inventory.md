@@ -7,7 +7,7 @@ The source of truth for rendered pages lives in `src/content/projects/*.md`.
 
 - MDS
 - World Interpreter Engine
-- HomeLog / Energy Watchdog
+- HomeLog
 - WireMesh
 - DreamFlow
 
@@ -22,3 +22,4 @@ The source of truth for rendered pages lives in `src/content/projects/*.md`.
 - Keep the site HTML-first.
 - Add Tailwind only if repeated layout primitives become painful.
 - Keep project metadata in frontmatter before rendering it in pages.
+- HomeLog should be framed as LINE-based space access and trust coordination, with gate access as the wedge, timeline as memory, and pricing/install details kept honest while still early.
