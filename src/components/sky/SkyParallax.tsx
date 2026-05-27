@@ -34,12 +34,16 @@ export function SkyParallax({ children }: { children: ReactNode }) {
     const tick = () => {
       curX += (targetX - curX) * 0.06;
       curY += (targetY - curY) * 0.06;
+      // Set CSS vars instead of overriding transform so centering rules survive
       const moon = el.querySelector<HTMLElement>('.moon-wrap');
       const mtnFar = el.querySelector<HTMLElement>('.mountain-far');
       const mtnMid = el.querySelector<HTMLElement>('.mountain-mid');
-      if (moon) moon.style.transform = `translate(${curX * 0.9}px, ${curY * 0.5}px)`;
-      if (mtnFar) mtnFar.style.transform = `translate(${curX * 0.25}px, 0)`;
-      if (mtnMid) mtnMid.style.transform = `translate(${curX * 0.5}px, 0)`;
+      if (moon) {
+        moon.style.setProperty('--px', `${curX * 0.9}px`);
+        moon.style.setProperty('--py', `${curY * 0.5}px`);
+      }
+      if (mtnFar) mtnFar.style.setProperty('--px', `${curX * 0.25}px`);
+      if (mtnMid) mtnMid.style.setProperty('--px', `${curX * 0.5}px`);
       raf = requestAnimationFrame(tick);
     };
 
