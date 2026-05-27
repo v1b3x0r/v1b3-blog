@@ -1,0 +1,36 @@
+{
+  "variants": [
+    {
+      "key": "th-cnx-night",
+      "conditions": { "isThaiSpeaker": true, "localHour": [19, 30] },
+      "copy": {
+        "h1": "ดวงจันทร์ของเธอ คือดวงเดียวกัน",
+        "sub": "v1b3topia · ที่ไหนซักที่ในเชียงใหม่"
+      }
+    },
+    {
+      "key": "dual-night",
+      "conditions": { "localHour": [19, 30] },
+      "copy": {
+        "h1": "building v1b3topia, somewhere under this moon.",
+        "sub": "we're sharing the same one tonight."
+      }
+    },
+    {
+      "key": "dawn-on-you",
+      "conditions": { "localHour": [5, 9] },
+      "copy": {
+        "h1": "the sun rising on you · still moon here.",
+        "sub": "building v1b3topia, somewhere in chiang mai."
+      }
+    },
+    {
+      "key": "default",
+      "conditions": {},
+      "copy": {
+        "h1": "building v1b3topia, somewhere in chiang mai.",
+        "sub": "you came to watch — stay as long as you like."
+      }
+    }
+  ]
+}
