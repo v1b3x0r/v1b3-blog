@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import easterEggs from "../content/copy/easter-eggs.json";
+const e = easterEggs["404"];
+---
+
+<BaseLayout title="scary beyond all reason · v1b3topia">
+  <main id="main" class="not-found">
+    <div class="nf-content">
+      <h1>{e.h1}</h1>
+      <p>{e.sub}</p>
+      <a href="/">{e.link}</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 80vh;
+    display: flex; align-items: center; justify-content: center;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(120,80,60,0.15) 0%, transparent 60%),
+      var(--c-bg-deepest);
+    padding-inline: var(--pad-side);
+  }
+  .nf-content { text-align: center; max-width: 32rem; }
+  .nf-content h1 {
+    font-family: var(--font-mono);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--c-ink);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .nf-content p {
+    font-family: var(--font-sans);
+    font-style: italic;
+    color: var(--c-ink-muted);
+    margin: 1rem 0 2rem;
+    line-height: 1.55;
+  }
+  .nf-content a {
+    font-family: var(--font-mono);
+    color: var(--c-accent-warm);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+</style>

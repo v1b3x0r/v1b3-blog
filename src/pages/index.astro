@@ -2,14 +2,44 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { ContextResolver } from "../components/layout/ContextResolver";
 import { PayloadDebug } from "../components/layout/PayloadDebug";
+import { SmoothScroll } from "../components/layout/SmoothScroll";
+import { HUDStrip } from "../components/hud/HUDStrip";
+import { FounderRow } from "../components/hud/FounderRow";
+import { VisitorNoticed } from "../components/hud/VisitorNoticed";
 import { Sky } from "../components/sky/Sky";
+import { HeroCopy } from "../components/sky/HeroCopy";
+import ProjectList from "../components/ground/ProjectList.astro";
+import { getCurrentSprintDay } from "../data/sprint";
+import founderBuild from "../data/founder-build.json";
+import "../styles/hud.css";
+import "../styles/ground.css";
+
+const sprint = getCurrentSprintDay();
+const lastCommit = founderBuild.lastCommit;
 ---
 
 <BaseLayout>
-  <main id="main">
-    <ContextResolver client:load>
-      <Sky client:load />
-      <PayloadDebug client:load />
-    </ContextResolver>
-  </main>
+  <ContextResolver client:load>
+    <SmoothScroll client:load />
+    <HUDStrip client:load />
+    <FounderRow client:load lastCommit={lastCommit} sprint={sprint} />
+    <main id="main">
+      <div class="hero-section">
+        <Sky client:load />
+        <HeroCopy client:load />
+        <VisitorNoticed client:load />
+      </div>
+      <div class="ground">
+        <ProjectList />
+      </div>
+    </main>
+    <PayloadDebug client:load />
+  </ContextResolver>
+  <footer class="site-footer">
+    from chiang mai · with melancholy
+  </footer>
 </BaseLayout>
+
+<style>
+  .hero-section { position: relative; }
+</style>
