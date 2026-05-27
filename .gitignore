@@ -24,3 +24,9 @@ pnpm-debug.log*
 
 # Vercel
 .vercel/
+
+# Superpowers brainstorm artifacts (local-only mockup sessions)
+.superpowers/
+
+# Build-time generated founder data
+src/data/founder-build.json

@@ -1,0 +1,15 @@
+{
+  "404": {
+    "h1": "scary beyond all reason.",
+    "sub": "this isn't on the map of v1b3topia.",
+    "link": "← return to chiang mai"
+  },
+  "offline": {
+    "h1": "no touch-a my groove.",
+    "sub": "you're offline. it's quiet here too."
+  },
+  "loading": "boom, baby.",
+  "returning": "oh, it's you again.",
+  "saveData": "keep moving forward. (light edition.)",
+  "print": "why are you printing this?"
+}

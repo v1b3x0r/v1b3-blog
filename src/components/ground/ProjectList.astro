@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects", ({ data }) => data.featured)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<section id="projects" class="ground-projects" aria-labelledby="projects-title">
+  <h2 id="projects-title" class="ground-projects-title">projects</h2>
+  <ol class="project-list">
+    {projects.map((project, idx) => (
+      <li>
+        <a class="project-row" href={`/projects/${project.id}/`}>
+          <span class="project-index">{String(idx + 1).padStart(2, "0")}</span>
+          <span class="project-name">{project.data.title}</span>
+          <span class="project-desc">{project.data.summary}</span>
+          <span class="project-status">{project.data.status.toUpperCase()}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</section>

@@ -1,77 +1,48 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { ContextResolver } from "../components/layout/ContextResolver";
+import { PayloadDebug } from "../components/layout/PayloadDebug";
+import { SmoothScroll } from "../components/layout/SmoothScroll";
+import { HUDStrip } from "../components/hud/HUDStrip";
+import { FounderRow } from "../components/hud/FounderRow";
+import { VisitorNoticed } from "../components/hud/VisitorNoticed";
+import { Sky } from "../components/sky/Sky";
+import { HeroCopy } from "../components/sky/HeroCopy";
+import { SkyParallax } from "../components/sky/SkyParallax";
+import ProjectList from "../components/ground/ProjectList.astro";
+import { getCurrentSprintDay } from "../data/sprint";
+import founderBuild from "../data/founder-build.json";
+import "../styles/hud.css";
+import "../styles/ground.css";
 
-const projects = (await getCollection("projects", ({ data }) => data.featured)).sort(
-  (a, b) => a.data.order - b.data.order,
-);
+const sprint = getCurrentSprintDay();
+const lastCommit = founderBuild.lastCommit;
 ---
 
 <BaseLayout>
-  <main>
-    <section class="hero" aria-labelledby="page-title">
-      <h1 id="page-title">97's INTP Guy in Chiang Mai.</h1>
-      <p>
-        I build small systems that turn signals into meaning. Sometimes they become
-        tools for real places, sometimes protocols, sometimes tiny worlds.
-      </p>
-    </section>
-
-    <section class="intro" aria-label="Profile">
-      <p>
-        No polished founder lore here. The short version is enough: Natthawut P.,
-        building from Chiang Mai, usually somewhere between practical home systems
-        and odd semantic experiments.
-      </p>
-      <dl class="facts">
-        <div>
-          <dt>handle</dt>
-          <dd>v1b3x0r</dd>
-        </div>
-        <div>
-          <dt>mode</dt>
-          <dd>builder / interpreter</dd>
-        </div>
-        <div>
-          <dt>bias</dt>
-          <dd>simple code, clear meaning</dd>
-        </div>
-      </dl>
-    </section>
-
-    <section id="projects" aria-labelledby="projects-title">
-      <div class="section-head">
-        <h2 id="projects-title">Projects</h2>
-        <p>
-          A short list of artifacts. The archive can grow later; this page should
-          stay opinionated.
-        </p>
+  <ContextResolver client:load>
+    <SmoothScroll client:load />
+    <HUDStrip client:load />
+    <FounderRow client:load lastCommit={lastCommit} sprint={sprint} />
+    <main id="main">
+      <div class="hero-section">
+        <SkyParallax client:load>
+          <Sky client:load />
+          <HeroCopy client:load />
+          <VisitorNoticed client:load />
+        </SkyParallax>
       </div>
-
-      <div class="project-list">
-        {
-          projects.map((project, index) => (
-            <a class="project-row" href={`/projects/${project.id}/`}>
-              <span class="project-index">{String(index + 1).padStart(2, "0")}</span>
-              <div>
-                <h3>{project.data.title}</h3>
-                <div class="project-meta">
-                  <span>{project.data.kind}</span>
-                  <span>{project.data.status}</span>
-                </div>
-              </div>
-              <div>
-                <p>{project.data.summary}</p>
-                <div class="tags">
-                  {project.data.stack.slice(0, 4).map((item) => (
-                    <span>{item}</span>
-                  ))}
-                </div>
-              </div>
-            </a>
-          ))
-        }
+      <div class="ground">
+        <ProjectList />
       </div>
-    </section>
-  </main>
+    </main>
+    <PayloadDebug client:load />
+  </ContextResolver>
+  <footer class="site-footer">
+    from chiang mai · with melancholy
+  </footer>
 </BaseLayout>
+
+<style>
+  .hero-section { position: relative; }
+</style>

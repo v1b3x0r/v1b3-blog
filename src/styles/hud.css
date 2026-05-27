@@ -1,0 +1,102 @@
+.hud-strip {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 14px;
+  background: linear-gradient(180deg, rgba(11,10,9,0.92), rgba(11,10,9,0.55));
+  border-bottom: 1px solid var(--c-line);
+  font-family: var(--font-mono);
+  font-size: var(--fs-hud);
+  color: var(--c-ink-muted);
+  letter-spacing: 0.08em;
+  backdrop-filter: blur(2px);
+  position: relative;
+  z-index: 10;
+}
+
+.hud-brand {
+  color: var(--c-accent);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+}
+
+.hud-sep { color: rgba(255,255,255,0.15); }
+
+.hud-right {
+  margin-left: auto;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.hud-live-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #34c759;
+  box-shadow: 0 0 6px #34c759;
+  animation: hudPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes hudPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+.motion-still .hud-live-dot { animation: none !important; opacity: 0.7 !important; }
+
+/* FOUNDER ROW */
+.founder-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--c-ink-faint);
+  letter-spacing: 0.06em;
+  flex-wrap: wrap;
+  background: linear-gradient(180deg, rgba(11,10,9,0.75), rgba(11,10,9,0.5));
+  border-bottom: 1px solid var(--c-line);
+  position: relative;
+  z-index: 10;
+}
+
+.founder-pill {
+  padding: 1px 7px;
+  background: rgba(208,138,90,0.1);
+  border: 1px solid rgba(208,138,90,0.2);
+  border-radius: 2px;
+  color: var(--c-accent-cream);
+}
+
+.founder-sep { color: rgba(255,255,255,0.15); }
+
+.founder-track {
+  color: var(--c-accent-cream);
+  font-style: italic;
+  opacity: 0.85;
+}
+
+@media (max-width: 600px) {
+  .hud-strip { flex-wrap: wrap; font-size: 8.5px; gap: 6px; }
+  .founder-row { font-size: 9.5px; gap: 6px; padding: 6px 12px; }
+}
+
+/* VISITOR NOTICED */
+.visitor-noticed {
+  position: absolute;
+  top: 52%;
+  right: 12%;
+  background: rgba(11,10,9,0.85);
+  border: 1px solid rgba(208,138,90,0.3);
+  border-radius: 4px;
+  padding: 4px 9px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--c-accent-cream);
+  letter-spacing: 0.1em;
+  z-index: 20;
+  animation: noticedFade 5.2s ease-in-out forwards;
+}
+
+@keyframes noticedFade {
+  0% { opacity: 0; transform: translateY(6px); }
+  10% { opacity: 1; transform: translateY(0); }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-3px); }
+}
+
+@media (max-width: 600px) {
+  .visitor-noticed { right: 50%; transform: translateX(50%); top: auto; bottom: 30%; }
+}

@@ -1,0 +1,73 @@
+/* tokens.css — design tokens for v1b3topia */
+
+:root {
+  /* core palette (dark default) */
+  --c-bg-deepest: #08070a;
+  --c-bg-sky-top: #0a0c1c;
+  --c-bg-sky-mid: #1a1525;
+  --c-bg-sky-horizon: #2a1d24;
+  --c-bg-ground: #100c0a;
+  --c-bg-ground-deep: #08070a;
+  --c-line: rgba(208, 138, 90, 0.15);
+  --c-line-strong: rgba(208, 138, 90, 0.3);
+
+  --c-ink: rgba(245, 238, 222, 0.95);
+  --c-ink-muted: rgba(255, 255, 255, 0.55);
+  --c-ink-faint: rgba(255, 255, 255, 0.35);
+
+  --c-accent: #d08a5a;
+  --c-accent-warm: #f0bd8e;
+  --c-accent-cream: #f8d4a8;
+  --c-accent-deep: #8a4b2a;
+
+  --c-moon-light: #fffaf0;
+  --c-moon-mid: #f0e2c8;
+  --c-moon-shadow: #8a7964;
+
+  --c-night-haze: rgba(110, 140, 180, 0.18);
+  --c-dusk-haze: rgba(140, 85, 55, 0.35);
+
+  --c-dawn-sky-top: #fbf2e4;
+  --c-dawn-sky-mid: #f4d9c0;
+  --c-dawn-sky-bottom: #c97a45;
+  --c-dawn-ink: #3a1e0c;
+  --c-dawn-ink-muted: rgba(80, 40, 20, 0.6);
+  --c-dawn-sun-core: #fff9e8;
+  --c-dawn-sun-mid: #fde4a8;
+  --c-dawn-sun-edge: #f5b860;
+
+  /* type */
+  --font-mono: ui-monospace, "SFMono-Regular", "Cascadia Code", "Liberation Mono", Menlo, monospace;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+
+  --fs-hud: 9px;
+  --fs-tiny: 11px;
+  --fs-meta: 13px;
+  --fs-body: 15px;
+  --fs-h3: 18px;
+  --fs-h2: clamp(1.4rem, 3vw, 2rem);
+  --fs-h1: clamp(2rem, 5vw, 3.5rem);
+
+  /* motion */
+  --ease-soft: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 200ms;
+  --dur-med: 400ms;
+  --dur-slow: 800ms;
+  --dur-yearning: 1200ms;
+
+  /* layout */
+  --max-w: 70rem;
+  --measure: 44rem;
+  --pad-side: clamp(1rem, 3vw, 2rem);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    /* dawn-edition overrides for save-data + light mode */
+    --c-bg-deepest: var(--c-dawn-sky-top);
+    --c-bg-ground: var(--c-dawn-sky-top);
+    --c-ink: var(--c-dawn-ink);
+    --c-ink-muted: var(--c-dawn-ink-muted);
+  }
+}

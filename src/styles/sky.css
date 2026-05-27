@@ -1,0 +1,242 @@
+.sky {
+  position: relative;
+  min-height: 60vh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.sky-night {
+  background:
+    radial-gradient(ellipse 60% 80% at 70% 30%, rgba(120,140,180,0.12) 0%, transparent 60%),
+    linear-gradient(180deg,
+      var(--c-bg-sky-top) 0%,
+      var(--c-bg-sky-top) 30%,
+      var(--c-bg-sky-mid) 60%,
+      var(--c-bg-sky-horizon) 82%,
+      #1f1418 92%,
+      var(--c-bg-deepest) 100%);
+}
+
+.sky-dawn {
+  background:
+    radial-gradient(ellipse 50% 90% at 92% 110%, rgba(255,200,120,0.55) 0%, transparent 50%),
+    linear-gradient(180deg, var(--c-dawn-sky-top) 0%, var(--c-dawn-sky-mid) 35%, #e9b78a 75%, var(--c-dawn-sky-bottom) 100%);
+}
+
+/* STARS */
+.stars { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.star { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.7); }
+.star-near { width: 1.8px; height: 1.8px; background: rgba(255,255,255,0.9); animation: starTwinkle 4s ease-in-out infinite; }
+.star-mid { width: 1.3px; height: 1.3px; background: rgba(255,255,255,0.65); animation: starTwinkle 5s ease-in-out infinite; }
+.star-far { width: 0.8px; height: 0.8px; background: rgba(255,255,255,0.4); animation: starTwinkle 6s ease-in-out infinite; }
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.motion-still .star { animation: none !important; opacity: 0.7 !important; }
+
+/* PERSPECTIVE GRID */
+.persp-grid { position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: 0.45; }
+
+/* HAZE */
+.horizon-haze {
+  position: absolute; left: 0; right: 0; bottom: 22%; height: 35%;
+  background: linear-gradient(180deg, transparent 0%, var(--c-dusk-haze) 60%, rgba(160,100,65,0.5) 100%);
+  pointer-events: none;
+  z-index: 2;
+  filter: blur(1px);
+}
+
+/* MOUNTAINS */
+.mountain { position: absolute; left: 0; right: 0; filter: blur(0.4px); }
+.mountain svg { width: 100%; height: 100%; display: block; }
+.mountain-far {
+  bottom: 16%; height: 12%; z-index: 3;
+  transform: translateX(var(--px, 0));
+  will-change: transform;
+}
+.mountain-far path { fill: rgba(60,40,55,0.7); }
+.mountain-mid {
+  bottom: 10%; height: 14%; z-index: 4;
+  transform: translateX(var(--px, 0));
+  will-change: transform;
+}
+.mountain-mid path { fill: rgba(35,22,30,0.85); }
+.mountain-near { bottom: 0; height: 18%; z-index: 5; }
+.mountain-near path { fill: rgba(15,10,12,0.95); }
+
+/* MOON */
+.moon-wrap {
+  position: absolute;
+  top: 18%; right: 14%;
+  z-index: 4;
+  /* parallax via CSS vars set by SkyParallax — no transform clobber */
+  transform: translate(var(--px, 0), var(--py, 0));
+  will-change: transform;
+}
+.moon-bloom {
+  position: absolute;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  top: -82px; left: -82px;
+  background: radial-gradient(circle, rgba(255,245,210,0.08) 0%, rgba(255,245,210,0.04) 30%, transparent 60%);
+  pointer-events: none;
+}
+.moon {
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--c-moon-light) 0%, var(--c-moon-mid) 30%, #c9b89a 65%, var(--c-moon-shadow) 95%);
+  box-shadow:
+    0 0 0 1px rgba(255,250,230,0.1),
+    0 0 14px rgba(255,245,210,0.5),
+    0 0 40px rgba(232,220,192,0.4),
+    0 0 100px rgba(160,140,110,0.3),
+    inset -8px -4px 16px rgba(20,15,10,0.4);
+  position: relative;
+}
+.moon::before {
+  content: ''; position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at var(--moon-shadow-x, 78%) 50%, transparent 50%, rgba(11,10,9, var(--moon-shadow-opacity, 0.6)) 72%, rgba(11,10,9,0.95) 92%);
+}
+.moon::after {
+  content: ''; position: absolute; inset: 12%; border-radius: 50%;
+  background-image:
+    radial-gradient(circle at 30% 40%, rgba(80,70,50,0.55) 0%, transparent 9%),
+    radial-gradient(circle at 60% 55%, rgba(110,95,75,0.45) 0%, transparent 7%),
+    radial-gradient(circle at 45% 25%, rgba(130,110,85,0.35) 0%, transparent 6%);
+  mix-blend-mode: multiply;
+}
+
+.moon-caption {
+  position: absolute; top: 16%; right: 4%;
+  font-family: var(--font-mono);
+  font-size: var(--fs-hud);
+  color: rgba(232,220,192,0.55);
+  letter-spacing: 0.15em;
+  text-align: right;
+  z-index: 5;
+  line-height: 1.4;
+}
+.moon-caption .phase-bar { color: rgba(245,238,222,0.78); }
+
+/* SUN */
+.sun-wrap {
+  position: absolute;
+  bottom: var(--sun-bottom, 8%);
+  right: 8%;
+  width: var(--sun-size, 56px);
+  height: var(--sun-size, 56px);
+  z-index: 4;
+}
+.sun-disc {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: radial-gradient(circle at 50% 40%, var(--c-dawn-sun-core) 0%, var(--c-dawn-sun-mid) 30%, var(--c-dawn-sun-edge) 70%, #d88030 100%);
+  box-shadow:
+    0 0 80px rgba(255,220,140,0.7),
+    0 0 30px rgba(255,200,120,0.6),
+    0 0 14px rgba(255,180,100,0.5);
+  position: relative; z-index: 2;
+}
+.sun-corona {
+  position: absolute; inset: -60%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,220,140,0.2) 0%, transparent 55%);
+  animation: sunPulse 5s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes sunPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+.motion-still .sun-corona { animation: none !important; opacity: 0.7 !important; }
+
+/* VIGNETTE */
+.vignette {
+  position: absolute; inset: 0; pointer-events: none;
+  box-shadow: inset 0 0 80px 30px rgba(0,0,0,0.5);
+  z-index: 5;
+}
+
+/* GRAIN */
+.grain {
+  position: absolute; inset: 0; pointer-events: none;
+  opacity: 0.045; z-index: 6;
+  mix-blend-mode: overlay;
+}
+
+/* HERO COPY */
+.hero-copy {
+  position: absolute;
+  bottom: 18%;
+  left: var(--pad-side);
+  max-width: 65%;
+  z-index: 8;
+}
+.hero-copy h1 {
+  font-family: var(--font-mono);
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.005em;
+  margin: 0;
+  color: var(--c-ink);
+  text-shadow: 0 1px 12px rgba(0,0,0,0.5);
+}
+.hero-place {
+  color: var(--c-accent-cream);
+  font-style: italic;
+}
+.hero-sub {
+  margin: 10px 0 0;
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
+  color: var(--c-ink-muted);
+  font-style: italic;
+  line-height: 1.5;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 600px) {
+  .hero-copy { left: var(--pad-side); right: var(--pad-side); max-width: none; bottom: 22%; text-align: center; }
+  .hero-copy h1 { font-size: clamp(1.1rem, 4.5vw, 1.6rem); }
+}
+
+/* MESH BACKGROUND */
+.mesh-bg {
+  position: absolute; inset: 0;
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+  z-index: 0;
+  pointer-events: none;
+}
+.mesh-bg canvas { width: 100% !important; height: 100% !important; display: block; }
+
+@media (max-width: 600px) {
+  /* center moon horizontally via margin, keep parallax transform clean */
+  .moon-wrap {
+    top: 12%;
+    right: auto;
+    left: 50%;
+    margin-left: -32px;  /* half of 64px moon size on mobile */
+  }
+  /* moon caption sits below moon, away from hero copy */
+  .moon-caption {
+    top: 28%;
+    bottom: auto;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  /* place hero copy between moon caption and mountain ridges */
+  .hero-copy {
+    bottom: 32%;
+  }
+  .hero-copy h1 {
+    text-shadow: 0 1px 16px rgba(0,0,0,0.85), 0 0 4px rgba(0,0,0,0.7);
+  }
+  .hero-copy .hero-sub {
+    text-shadow: 0 1px 8px rgba(0,0,0,0.85);
+  }
+}

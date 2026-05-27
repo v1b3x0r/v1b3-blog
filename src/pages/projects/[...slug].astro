@@ -1,57 +1,161 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import { ContextResolver } from "../../components/layout/ContextResolver";
+import { HUDStrip } from "../../components/hud/HUDStrip";
+import "../../styles/hud.css";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
-
   return projects.map((project) => ({
     params: { slug: project.id },
-    props: { project, projects },
+    props: { project },
   }));
 }
 
-const { project, projects } = Astro.props;
+const { project } = Astro.props;
 const { Content } = await render(project);
-const relatedProjects = project.data.relatedProjects
-  .map((relation) => {
-    const relatedProject = projects.find((item) => item.id === relation.slug);
+const allProjects = await getCollection("projects");
 
-    return relatedProject ? { ...relation, project: relatedProject } : null;
+const related = (project.data.relatedProjects || [])
+  .map((rel) => {
+    const target = allProjects.find((p) => p.id === rel.slug);
+    return target ? { ...target, note: rel.note } : null;
   })
-  .filter((relation) => relation !== null);
+  .filter((r): r is NonNullable<typeof r> => r !== null);
 ---
 
-<BaseLayout title={`${project.data.title} / v1b3x0r`} description={project.data.summary}>
-  <main class="project-page">
-    <aside class="project-aside">
-      <a href="/">back home</a>
-      <p>{project.data.kind}</p>
-      <p>{project.data.status}</p>
-      <div class="tags">
-        {project.data.stack.map((item) => <span>{item}</span>)}
-      </div>
-      {project.data.site && <a href={project.data.site}>{project.data.siteLabel ?? "open site"}</a>}
-      {project.data.repo && <a href={project.data.repo}>source</a>}
-    </aside>
-
+<BaseLayout title={`${project.data.title} · v1b3topia`} description={project.data.summary}>
+  <ContextResolver client:load>
+    <HUDStrip client:load />
+  </ContextResolver>
+  <main id="main" class="project-page-wrap">
     <article class="project-article">
-      <h1>{project.data.title}</h1>
-      <p class="summary">{project.data.summary}</p>
-      {
-        relatedProjects.length > 0 && (
-          <section class="related-projects" aria-labelledby="related-projects-title">
-            <h2 id="related-projects-title">Related project</h2>
-            {relatedProjects.map((relation) => (
-              <a href={`/projects/${relation.project.id}/`}>
-                <span>{relation.project.data.title}</span>
-                <small>{relation.note}</small>
-              </a>
+      <a class="project-back" href="/" aria-label="return to v1b3topia home">← return to sky</a>
+      <header>
+        <h1>{project.data.title}</h1>
+        <p class="project-summary">{project.data.summary}</p>
+        <div class="project-meta">
+          <span>{project.data.kind}</span>
+          <span class="project-status">{project.data.status.toUpperCase()}</span>
+        </div>
+      </header>
+      <div class="project-body">
+        <Content />
+      </div>
+      {related.length > 0 && (
+        <aside class="related-projects">
+          <h2>related</h2>
+          <ul>
+            {related.map((r) => (
+              <li>
+                <a href={`/projects/${r.id}/`}>
+                  <span>{r.data.title}</span>
+                  <small>{r.note}</small>
+                </a>
+              </li>
             ))}
-          </section>
-        )
-      }
-      <Content />
+          </ul>
+        </aside>
+      )}
     </article>
   </main>
+  <footer class="site-footer">from chiang mai · with melancholy</footer>
 </BaseLayout>
+
+<style>
+  .project-page-wrap {
+    background:
+      radial-gradient(rgba(208,138,90,0.05) 0.7px, transparent 1px),
+      var(--c-bg-deepest);
+    background-size: 22px 22px, 100% 100%;
+    min-height: 80vh;
+    padding-top: 3rem;
+  }
+  .project-article {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding-inline: var(--pad-side);
+  }
+  .project-back {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--c-ink-muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    display: inline-block;
+    letter-spacing: 0.04em;
+  }
+  .project-back:hover { color: var(--c-accent-warm); }
+  .project-article h1 {
+    font-family: var(--font-mono);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.05;
+    margin: 0;
+  }
+  .project-summary {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    color: var(--c-ink-muted);
+    margin: 1.25rem 0;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .project-meta {
+    display: flex; gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--c-ink-faint);
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--c-line);
+    margin-bottom: 2rem;
+  }
+  .project-status { color: var(--c-accent-warm); letter-spacing: 0.1em; }
+  .project-body :global(p) { margin: 1.2rem 0; line-height: 1.7; }
+  .project-body :global(h2) {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    margin: 2.5rem 0 1rem;
+    color: var(--c-accent-warm);
+  }
+  .project-body :global(code) {
+    font-family: var(--font-mono);
+    background: rgba(208,138,90,0.1);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+    font-size: 0.92em;
+  }
+  .project-body :global(pre) {
+    background: rgba(11,10,9,0.6);
+    border: 1px solid var(--c-line);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  .related-projects {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--c-line);
+  }
+  .related-projects h2 {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: var(--c-ink-muted);
+    margin: 0 0 1rem;
+  }
+  .related-projects ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+  .related-projects a {
+    display: grid; gap: 0.3rem;
+    padding: 0.85rem 1rem;
+    background: rgba(208,138,90,0.04);
+    border-radius: 6px;
+    border: 1px solid var(--c-line);
+    text-decoration: none;
+    transition: border-color var(--dur-fast) var(--ease-soft);
+  }
+  .related-projects a:hover { border-color: var(--c-accent); }
+  .related-projects span { color: var(--c-ink); font-family: var(--font-mono); }
+  .related-projects small { color: var(--c-ink-faint); font-family: var(--font-sans); font-style: italic; line-height: 1.5; }
+</style>
