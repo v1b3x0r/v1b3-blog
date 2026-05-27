@@ -4,11 +4,13 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  pageClass?: string;
 }
 
 const {
-  title = "v1b3x0r",
-  description = "97's INTP Guy in Chiang Mai. Small systems, weird worlds, and projects that turn signals into meaning.",
+  title = "v1b3topia",
+  description = "building v1b3topia, somewhere in chiang mai. small systems by 97's INTP guy.",
+  pageClass = "",
 } = Astro.props;
 ---
 
@@ -21,19 +23,11 @@ const {
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="color-scheme" content="dark light" />
     <title>{title}</title>
   </head>
-  <body>
-    <header class="site-header">
-      <a class="brand" href="/">v1b3x0r</a>
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a href="/#projects">projects</a>
-        <a href="https://github.com/v1b3x0r">github</a>
-      </nav>
-    </header>
+  <body class={pageClass}>
+    <a href="#main" class="skip-link">skip to content</a>
     <slot />
-    <footer class="site-footer">
-      97's INTP Guy in Chiang Mai. Built as static HTML with Astro.
-    </footer>
   </body>
 </html>
