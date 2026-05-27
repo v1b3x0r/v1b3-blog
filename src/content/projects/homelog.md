@@ -9,6 +9,8 @@ siteLabel: "view HomeLog page"
 relatedProjects:
   - slug: "mds"
     note: "MDS is the meaning-first architecture lens. HomeLog is where roles, passes, and space context become strict because real gates open."
+  - slug: "uicp"
+    note: "HomeLog's drawer-driven LIFF UI runs on UICP primitives. UICP exists because HomeLog needed sheets that ship static, without dragging in a framework."
   - slug: "dreamlink"
     note: "Future-latent: a Pi-shaped DreamLink could carry HomeLog's sensors into DreamFlow events so the timeline reads like memory, not telemetry."
   - slug: "world-interpreter-engine"
