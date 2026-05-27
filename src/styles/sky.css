@@ -150,6 +150,16 @@
   mix-blend-mode: overlay;
 }
 
+/* MESH BACKGROUND */
+.mesh-bg {
+  position: absolute; inset: 0;
+  opacity: 0.35;
+  mix-blend-mode: soft-light;
+  z-index: 0;
+  pointer-events: none;
+}
+.mesh-bg canvas { width: 100% !important; height: 100% !important; display: block; }
+
 @media (max-width: 600px) {
   .moon-wrap { top: 22%; right: 50%; transform: translateX(50%); }
   .moon-caption { top: auto; bottom: 30%; right: 50%; transform: translateX(50%); text-align: center; }

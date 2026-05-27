@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, lazy, Suspense } from 'react';
 import { usePayload } from '../layout/ContextResolver';
 import { readSkyBodies } from '../../lib/suncalc-helpers';
 import { Stars } from './Stars';
@@ -7,6 +7,8 @@ import { Sun } from './Sun';
 import { DoiSuthep } from './DoiSuthep';
 import { Atmosphere } from './Atmosphere';
 import '../../styles/sky.css';
+
+const MeshBackground = lazy(() => import('./MeshBackground').then((m) => ({ default: m.MeshBackground })));
 
 export function Sky() {
   const payload = usePayload();
@@ -20,6 +22,9 @@ export function Sky() {
 
   return (
     <div className={`${skyClass} ${reduceMotion ? 'motion-still' : ''}`} role="img" aria-label={`night sky over chiang mai with ${bodies.moonPhase.label}`}>
+      <Suspense fallback={null}>
+        <MeshBackground />
+      </Suspense>
       {!reduceMotion && <Stars count={isMobile ? 8 : 14} />}
       <Atmosphere />
       <DoiSuthep ridges={ridges} />
