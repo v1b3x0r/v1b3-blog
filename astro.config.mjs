@@ -27,9 +27,4 @@ export default defineConfig({
     imageService: false,
   }),
   integrations: [react(), bakeGitIntegration()],
-  vite: {
-    optimizeDeps: {
-      exclude: ['suncalc'],
-    },
-  },
 });
