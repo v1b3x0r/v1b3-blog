@@ -11,19 +11,17 @@ import { HeroCopy } from "../components/sky/HeroCopy";
 import { SkyParallax } from "../components/sky/SkyParallax";
 import ProjectList from "../components/ground/ProjectList.astro";
 import { getCurrentSprintDay } from "../data/sprint";
-import founderBuild from "../data/founder-build.json";
 import "../styles/hud.css";
 import "../styles/ground.css";
 
 const sprint = getCurrentSprintDay();
-const lastCommit = founderBuild.lastCommit;
 ---
 
 <BaseLayout>
   <ContextResolver client:load>
     <SmoothScroll client:load />
     <HUDStrip client:load />
-    <FounderRow client:load lastCommit={lastCommit} sprint={sprint} />
+    <FounderRow client:load sprint={sprint} />
     <main id="main">
       <div class="hero-section">
         <SkyParallax client:load>

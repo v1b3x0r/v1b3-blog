@@ -1,13 +1,5 @@
 import { useEffect, useState } from 'react';
 
-export interface CommitInfo {
-  repo: string;
-  msg: string;
-  hash: string;
-  relativeTime: string;
-  timestamp: number;
-}
-
 export interface SprintInfo {
   day: number;
   total: number;
@@ -15,7 +7,6 @@ export interface SprintInfo {
 }
 
 interface FounderRowProps {
-  lastCommit: CommitInfo | null;
   sprint: SprintInfo | null;
   hideTrack?: boolean;
 }
@@ -34,8 +25,29 @@ function timeAgo(timestamp: number): string {
   return `${Math.floor(secAgo / 86400)}d ago`;
 }
 
-export function FounderRow({ lastCommit, sprint, hideTrack = false }: FounderRowProps) {
+export function FounderRow({ sprint, hideTrack = false }: FounderRowProps) {
   const [lastfm, setLastfm] = useState<LastFmState | null>(null);
+  const [weather, setWeather] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchWeather = async () => {
+      try {
+        const r = await fetch('/api/weather');
+        const data = await r.json();
+        if (!cancelled && data.weather) setWeather(data.weather);
+      } catch { /* graceful */ }
+    };
+
+    fetchWeather();
+    const interval = setInterval(fetchWeather, 600_000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     if (hideTrack) return;
@@ -62,14 +74,12 @@ export function FounderRow({ lastCommit, sprint, hideTrack = false }: FounderRow
     };
   }, [hideTrack]);
 
-  if (!lastCommit && !sprint) return null;
-
   return (
     <div className="founder-row">
       <span className="founder-pill">FOUNDER</span>
-      {lastCommit && (
+      {weather && (
         <>
-          <span className="founder-item">last commit {lastCommit.relativeTime} · {lastCommit.repo}</span>
+          <span className="founder-item">Chiang Mai {weather}</span>
           {sprint && <span className="founder-sep">·</span>}
         </>
       )}

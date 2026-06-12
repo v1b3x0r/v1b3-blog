@@ -4,8 +4,8 @@ summary: "A LINE-based space access and trust coordination layer for real places
 status: "active"
 kind: "space access system"
 stack: ["LINE LIFF", "SvelteKit", "FastAPI", "PostgreSQL", "relay hardware", "field ops"]
-site: "https://viibe.to/homelog"
-siteLabel: "view HomeLog page"
+site: "https://homelog.life"
+siteLabel: "homelog.life"
 relatedProjects:
   - slug: "mds"
     note: "MDS is the meaning-first architecture lens. HomeLog is where roles, passes, and space context become strict because real gates open."
