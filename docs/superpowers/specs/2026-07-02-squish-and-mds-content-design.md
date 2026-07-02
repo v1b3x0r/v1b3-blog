@@ -4,8 +4,8 @@ Date: 2026-07-02
 
 ## Goal
 
-Add Squish as the ninth featured project and refresh the MDS project page from
-its current Field Guide and three open research issues.
+Add Squish after the eight existing featured projects and refresh the MDS
+project page from its current Field Guide and three open research issues.
 
 ## Sources of truth
 
@@ -24,8 +24,10 @@ MDS copy follows:
 ## Squish page
 
 Create `src/content/projects/squish-app.md` using the existing project content
-schema. It will be featured with `order: 9`, link to the shipped web app and
-repository, and describe Squish as a complete v1.0 product.
+schema. It will appear after the existing projects through the collection's
+current data-driven ordering, link to the shipped web app and repository, and
+describe Squish as a complete v1.0 product. Do not add positional logic,
+index checks, or a Squish-specific branch to the UI.
 
 The narrative centers on video contact sheets as Visual Context Compression:
 Squish turns temporal media into one spatial, timecoded artifact a
@@ -73,7 +75,8 @@ These are research directions, not shipped API claims.
   Squish and the refreshed MDS framing.
 - Update `NEXT-SESSION.md` as the existing task log instead of creating another
   log file.
-- Preserve all existing project order values; Squish is the new final item.
+- Preserve the existing data-driven project ordering; Squish is the new final
+  item without hardcoded UI placement.
 
 ## Verification
 
