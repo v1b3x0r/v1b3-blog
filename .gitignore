@@ -27,6 +27,7 @@ pnpm-debug.log*
 
 # Superpowers brainstorm artifacts (local-only mockup sessions)
 .superpowers/
+.worktrees/
 
 # Build-time generated founder data
 src/data/founder-build.json
