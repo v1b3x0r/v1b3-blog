@@ -1,8 +1,11 @@
 # NEXT-SESSION — v1b3-blog
 
-> Resume point. Last touched: 2026-07-02 — Squish + MDS content refresh.
+> Resume point. Last touched: 2026-07-04 — persistent ambient radio MVP.
 
 ## Done this session
+- Added the persistent `v1b3topia radio`: an opt-in, no-repeat CC0 playlist
+  that survives Astro client navigation, with explicit provenance for every
+  local audio asset.
 - Added the shipped Squish v1.0 product to the project collection from `getsquish.app` production truth, not the stale native-repo reset notes.
 - Positioned Squish as Visual Context Compression: video → one timecoded contact sheet → vision-language-model reasoning, with client-side privacy and honest Free/Pro boundaries.
 - Reworked the MDS page from the current eight-layer Field Guide and v5.12 skill-trigger reality.
