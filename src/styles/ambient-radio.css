@@ -1,0 +1,61 @@
+.ambient-radio {
+  position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  max-width: min(32rem, calc(100vw - 2rem));
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--c-line);
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--c-bg-deepest) 88%, transparent);
+  backdrop-filter: blur(12px);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.ambient-radio button,
+.ambient-radio a {
+  color: var(--c-ink-muted);
+  font: inherit;
+}
+
+.ambient-radio button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.ambient-radio button:hover,
+.ambient-radio button:focus-visible,
+.ambient-radio a:hover,
+.ambient-radio a:focus-visible {
+  color: var(--c-accent-warm);
+}
+
+.ambient-radio button:disabled {
+  cursor: default;
+}
+
+.ambient-radio__toggle {
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ambient-radio__source,
+.ambient-radio__next {
+  flex: none;
+}
+
+@media (max-width: 42rem) {
+  .ambient-radio {
+    left: 1rem;
+    right: 1rem;
+  }
+}
