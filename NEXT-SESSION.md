@@ -1,6 +1,10 @@
 # NEXT-SESSION — v1b3-blog
 
-> Resume point. Last touched: 2026-06-13 (late night) — "เอา commit เก๊ออก" pass.
+> Resume point. Last touched: 2026-07-04 — Celsius HUD weather.
+
+## Done this session
+- Forced Chiang Mai HUD weather to Celsius at the API boundary, including a
+  Fahrenheit-to-Celsius fallback for locale/cache drift.
 
 ## Done last session
 - FOUNDER row: fake-looking baked commit ("last commit Nd ago · v1b3-blog") → live Chiang Mai weather via wttr.in (`/api/weather`, same pattern as `/api/lastfm`). bake-git removed entirely.

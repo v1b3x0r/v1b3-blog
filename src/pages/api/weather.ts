@@ -1,16 +1,17 @@
 import type { APIRoute } from 'astro';
+import { normalizeWeather } from '../../lib/weather';
 
 export const prerender = false;
 
 // wttr.in one-liner for Chiang Mai, e.g. "🌦 +26°C" (%c = condition, %t = temp)
-const WTTR_URL = 'https://wttr.in/Chiang+Mai?format=%c+%t';
+const WTTR_URL = 'https://wttr.in/Chiang+Mai?format=%c+%t&m';
 
 export const GET: APIRoute = async () => {
   try {
     const r = await fetch(WTTR_URL, { headers: { 'User-Agent': 'curl/8' } });
     const text = (await r.text()).trim();
     // wttr.in returns HTML error pages on failure — accept only the short one-liner
-    const weather = r.ok && text.length > 0 && text.length < 40 && !text.includes('<') ? text : null;
+    const weather = r.ok ? normalizeWeather(text) : null;
 
     return new Response(JSON.stringify({ weather }), {
       status: 200,
