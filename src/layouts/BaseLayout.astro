@@ -1,4 +1,7 @@
 ---
+import { ClientRouter } from "astro:transitions";
+import { AmbientRadio } from "../components/audio/AmbientRadio";
+import "../styles/ambient-radio.css";
 import "../styles/global.css";
 
 interface Props {
@@ -25,9 +28,11 @@ const {
     <meta name="generator" content={Astro.generator} />
     <meta name="color-scheme" content="dark light" />
     <title>{title}</title>
+    <ClientRouter />
   </head>
   <body class={pageClass}>
     <a href="#main" class="skip-link">skip to content</a>
+    <AmbientRadio client:load transition:persist />
     <slot />
   </body>
 </html>
