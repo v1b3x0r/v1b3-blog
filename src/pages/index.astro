@@ -10,6 +10,7 @@ import { Sky } from "../components/sky/Sky";
 import { HeroCopy } from "../components/sky/HeroCopy";
 import { SkyParallax } from "../components/sky/SkyParallax";
 import ProjectList from "../components/ground/ProjectList.astro";
+import WritingList from "../components/ground/WritingList.astro";
 import { getCurrentSprintDay } from "../data/sprint";
 import "../styles/hud.css";
 import "../styles/ground.css";
@@ -32,6 +33,7 @@ const sprint = getCurrentSprintDay();
       </div>
       <div class="ground">
         <ProjectList />
+        <WritingList />
       </div>
     </main>
     <PayloadDebug client:load />
