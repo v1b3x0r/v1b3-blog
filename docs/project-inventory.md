@@ -14,12 +14,14 @@ The source of truth for rendered pages lives in `src/content/projects/*.md`.
 - DreamLink
 - UICP
 - Squish
+- Living Memory Engine
 
 ## Current Site Shape
 
 - `/` is the only main page.
 - `/projects/[slug]/` renders detail pages from the `projects` content collection.
-- Theme follows the visitor's system preference through CSS variables.
+- `/writing/` lists published posts; `/writing/[slug]/` renders long-form posts from the `posts` content collection (drafts are excluded from both).
+- Single twilight theme for everyone (decision 2026-07-21): no OS-preference dual mode. Dormant `--c-dawn-*` tokens and `.sky-dawn` remain for a possible future sun-driven palette.
 
 ## Notes
 

@@ -62,12 +62,5 @@
   --pad-side: clamp(1rem, 3vw, 2rem);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    /* dawn-edition overrides for save-data + light mode */
-    --c-bg-deepest: var(--c-dawn-sky-top);
-    --c-bg-ground: var(--c-dawn-sky-top);
-    --c-ink: var(--c-dawn-ink);
-    --c-ink-muted: var(--c-dawn-ink-muted);
-  }
-}
+/* Single twilight theme by decision (2026-07-21) — no OS-preference dual mode.
+   --c-dawn-* tokens stay dormant for a future sun-driven (time-of-day) palette. */

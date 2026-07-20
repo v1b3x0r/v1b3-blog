@@ -15,7 +15,7 @@ export function Sky() {
 
   const bodies = useMemo(() => readSkyBodies(new Date()), []);
 
-  const skyClass = payload ? `sky sky-${payload.atmosphere.colorScheme === 'dark' ? 'night' : 'dawn'}` : 'sky sky-night';
+  const skyClass = 'sky sky-night';
   const reduceMotion = payload?.atmosphere.reduceMotion ?? false;
   const isMobile = payload ? payload.embodiment.viewportW < 600 : false;
   const ridges: 1 | 3 = isMobile ? 1 : 3;
