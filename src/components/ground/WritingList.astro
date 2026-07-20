@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 
-const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
+const posts = (await getCollection("posts", ({ data }) => !data.draft && data.featured)).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
 ---
