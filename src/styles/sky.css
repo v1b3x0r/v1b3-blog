@@ -17,6 +17,8 @@
       var(--c-bg-deepest) 100%);
 }
 
+/* dormant since the single-twilight decision (2026-07-21) — reserved for a future
+   sun-driven palette keyed off getSkyState(), not OS preference */
 .sky-dawn {
   background:
     radial-gradient(ellipse 50% 90% at 92% 110%, rgba(255,200,120,0.55) 0%, transparent 50%),

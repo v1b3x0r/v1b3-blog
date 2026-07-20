@@ -1,0 +1,217 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { ContextResolver } from "../../components/layout/ContextResolver";
+import { HUDStrip } from "../../components/hud/HUDStrip";
+import "../../styles/hud.css";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const allProjects = await getCollection("projects");
+
+const related = post.data.relatedProjects
+  .map((slug) => allProjects.find((p) => p.id === slug))
+  .filter((p): p is NonNullable<typeof p> => p !== undefined);
+
+const published = post.data.publishedAt.toISOString().slice(0, 10);
+---
+
+<BaseLayout title={`${post.data.title} · v1b3topia`} description={post.data.summary}>
+  <ContextResolver client:load>
+    <HUDStrip client:load />
+  </ContextResolver>
+  <main id="main" class="post-page-wrap">
+    <article class="post-article">
+      <a class="post-back" href="/writing/" aria-label="back to all writing">← all writing</a>
+      <header>
+        <h1>{post.data.title}</h1>
+        <p class="post-summary">{post.data.summary}</p>
+        <div class="post-meta">
+          <time datetime={published}>{published}</time>
+          <span>{post.data.readingMinutes} min read</span>
+          {post.data.tags.length > 0 && (
+            <span class="post-tags">{post.data.tags.join(" · ")}</span>
+          )}
+        </div>
+      </header>
+      <div class="post-body">
+        <Content />
+      </div>
+      {related.length > 0 && (
+        <aside class="related-projects">
+          <h2>related projects</h2>
+          <ul>
+            {related.map((r) => (
+              <li>
+                <a href={`/projects/${r.id}/`}>
+                  <span>{r.data.title}</span>
+                  <small>{r.data.summary}</small>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
+    </article>
+  </main>
+  <footer class="site-footer">from chiang mai · with melancholy</footer>
+</BaseLayout>
+
+<style>
+  .post-page-wrap {
+    background:
+      radial-gradient(rgba(208,138,90,0.05) 0.7px, transparent 1px),
+      var(--c-bg-deepest);
+    background-size: 22px 22px, 100% 100%;
+    min-height: 80vh;
+    padding-top: 3rem;
+  }
+  .post-article {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding-inline: var(--pad-side);
+  }
+  .post-back {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--c-ink-muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    display: inline-block;
+    letter-spacing: 0.04em;
+  }
+  .post-back:hover { color: var(--c-accent-warm); }
+  .post-article h1 {
+    font-family: var(--font-mono);
+    font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+    line-height: 1.1;
+    margin: 0;
+  }
+  .post-summary {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    color: var(--c-ink-muted);
+    margin: 1.25rem 0;
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--c-ink-faint);
+    letter-spacing: 0.04em;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--c-line);
+    margin-bottom: 2.5rem;
+  }
+  .post-meta time { color: var(--c-accent); }
+  .post-tags { color: var(--c-ink-faint); }
+
+  /* long-read prose: sans body, mono structure */
+  .post-body :global(p),
+  .post-body :global(li) {
+    font-family: var(--font-sans);
+    font-size: 1.02rem;
+    line-height: 1.75;
+  }
+  .post-body :global(p) { margin: 1.3rem 0; }
+  .post-body :global(ul), .post-body :global(ol) { padding-left: 1.4rem; }
+  .post-body :global(li) { margin: 0.4rem 0; }
+  .post-body :global(strong) { color: var(--c-ink); font-weight: 600; }
+  .post-body :global(h2) {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    margin: 3rem 0 1.2rem;
+    color: var(--c-accent-warm);
+  }
+  .post-body :global(blockquote) {
+    margin: 2.5rem 0;
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--c-accent);
+    font-family: var(--font-mono);
+    color: var(--c-accent-warm);
+    line-height: 1.6;
+  }
+  .post-body :global(blockquote p) {
+    font-family: var(--font-mono);
+    font-size: 1.02rem;
+    margin: 0;
+  }
+  .post-body :global(code) {
+    font-family: var(--font-mono);
+    background: rgba(208,138,90,0.1);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+    font-size: 0.92em;
+  }
+  .post-body :global(pre) {
+    background: rgba(11,10,9,0.6);
+    border: 1px solid var(--c-line);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  .post-body :global(pre code) { background: none; padding: 0; }
+  .post-body :global(table) {
+    display: block;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    margin: 2rem 0;
+  }
+  .post-body :global(th) {
+    color: var(--c-accent-warm);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--c-line-strong);
+    padding: 0.5rem 0.75rem;
+  }
+  .post-body :global(th:not([align])) { text-align: left; }
+  .post-body :global(td) {
+    border-bottom: 1px dashed var(--c-line);
+    padding: 0.5rem 0.75rem;
+    color: var(--c-ink-muted);
+  }
+  .post-body :global(td:first-child) { color: var(--c-ink); }
+  .post-body :global(img) { max-width: 100%; }
+
+  .related-projects {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--c-line);
+  }
+  .related-projects h2 {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    color: var(--c-ink-muted);
+    margin: 0 0 1rem;
+  }
+  .related-projects ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
+  .related-projects a {
+    display: grid; gap: 0.3rem;
+    padding: 0.85rem 1rem;
+    background: rgba(208,138,90,0.04);
+    border-radius: 6px;
+    border: 1px solid var(--c-line);
+    text-decoration: none;
+    transition: border-color var(--dur-fast) var(--ease-soft);
+  }
+  .related-projects a:hover { border-color: var(--c-accent); }
+  .related-projects span { color: var(--c-ink); font-family: var(--font-mono); }
+  .related-projects small { color: var(--c-ink-faint); font-family: var(--font-sans); font-style: italic; line-height: 1.5; }
+
+</style>

@@ -15,9 +15,11 @@
   opacity: 0.4;
 }
 
-.ground-projects { width: min(100% - var(--pad-side) * 2, var(--max-w)); margin-inline: auto; }
+.ground-projects, .ground-writing { width: min(100% - var(--pad-side) * 2, var(--max-w)); margin-inline: auto; }
 
-.ground-projects-title {
+.ground-writing { margin-top: 3rem; }
+
+.ground-projects-title, .ground-writing-title {
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.2em;
@@ -74,6 +76,66 @@
   text-align: right;
 }
 
+/* writing rows — same rhythm as project rows, dated instead of numbered */
+.writing-list { list-style: none; margin: 0; padding: 0; }
+.writing-list li {
+  border-bottom: 1px dashed var(--c-line);
+}
+.writing-list li:last-child { border-bottom: none; }
+
+.writing-row {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(8rem, 18rem) 1fr 4rem;
+  gap: 1.25rem;
+  align-items: baseline;
+  padding: 0.9rem 0;
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  transition: background var(--dur-fast) var(--ease-soft);
+}
+
+.writing-row:hover, .writing-row:focus-visible {
+  background: rgba(208,138,90,0.04);
+  outline: none;
+}
+
+.writing-row:hover .writing-name, .writing-row:focus-visible .writing-name {
+  color: var(--c-accent-cream);
+}
+
+.writing-date { color: var(--c-accent); font-size: 0.8rem; }
+.writing-name {
+  color: var(--c-ink);
+  font-size: 1.05rem;
+  font-weight: 500;
+  transition: color var(--dur-fast) var(--ease-soft);
+}
+.writing-desc {
+  color: var(--c-ink-faint);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-style: italic;
+  line-height: 1.5;
+}
+.writing-minutes {
+  font-size: 0.7rem;
+  color: var(--c-accent-warm);
+  letter-spacing: 0.1em;
+  text-align: right;
+}
+
+.ground-writing-all {
+  display: inline-block;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--c-ink-muted);
+  text-decoration: none;
+}
+.ground-writing-all:hover, .ground-writing-all:focus-visible { color: var(--c-accent-warm); }
+
 @media (max-width: 700px) {
   .project-row {
     grid-template-columns: 2rem 1fr;
@@ -81,4 +143,10 @@
   }
   .project-desc { grid-column: 2 / -1; margin-top: 0.25rem; }
   .project-status { grid-column: 2 / -1; text-align: left; }
+  .writing-row {
+    grid-template-columns: 6.5rem 1fr;
+    gap: 0.75rem;
+  }
+  .writing-desc { grid-column: 1 / -1; margin-top: 0.25rem; }
+  .writing-minutes { grid-column: 1 / -1; text-align: left; }
 }

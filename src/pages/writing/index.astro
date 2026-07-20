@@ -1,0 +1,120 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { ContextResolver } from "../../components/layout/ContextResolver";
+import { HUDStrip } from "../../components/hud/HUDStrip";
+import "../../styles/hud.css";
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+---
+
+<BaseLayout
+  title="writing · v1b3topia"
+  description="building journeys from v1b3topia — written while the understanding is still warm."
+>
+  <ContextResolver client:load>
+    <HUDStrip client:load />
+  </ContextResolver>
+  <main id="main" class="writing-page-wrap">
+    <section class="writing-index" aria-labelledby="writing-title">
+      <a class="writing-back" href="/" aria-label="return to v1b3topia home">← return to sky</a>
+      <h1 id="writing-title">writing</h1>
+      <p class="writing-intro">notes from the ground, written while the understanding is still warm.</p>
+      <ol class="writing-entries">
+        {posts.map((post) => {
+          const published = post.data.publishedAt.toISOString().slice(0, 10);
+          return (
+            <li>
+              <article class="writing-entry">
+                <p class="writing-entry-meta">
+                  <time datetime={published}>{published}</time>
+                  <span>· {post.data.readingMinutes} min read</span>
+                </p>
+                <h2><a href={`/writing/${post.id}/`}>{post.data.title}</a></h2>
+                <p class="writing-entry-summary">{post.data.summary}</p>
+              </article>
+            </li>
+          );
+        })}
+      </ol>
+    </section>
+  </main>
+  <footer class="site-footer">from chiang mai · with melancholy</footer>
+</BaseLayout>
+
+<style>
+  .writing-page-wrap {
+    background:
+      radial-gradient(rgba(208,138,90,0.05) 0.7px, transparent 1px),
+      var(--c-bg-deepest);
+    background-size: 22px 22px, 100% 100%;
+    min-height: 80vh;
+    padding-top: 3rem;
+  }
+  .writing-index {
+    max-width: var(--measure);
+    margin: 0 auto;
+    padding-inline: var(--pad-side);
+  }
+  .writing-back {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--c-ink-muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    display: inline-block;
+    letter-spacing: 0.04em;
+  }
+  .writing-back:hover { color: var(--c-accent-warm); }
+  .writing-index h1 {
+    font-family: var(--font-mono);
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.05;
+    margin: 0;
+  }
+  .writing-intro {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--c-ink-muted);
+    font-style: italic;
+    margin: 1.25rem 0 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .writing-entries { list-style: none; margin: 0; padding: 0; }
+  .writing-entries li { border-bottom: 1px dashed var(--c-line); }
+  .writing-entries li:last-child { border-bottom: none; }
+  .writing-entry { padding: 1.75rem 0; }
+  .writing-entry-meta {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--c-ink-faint);
+    margin: 0 0 0.6rem;
+  }
+  .writing-entry-meta time { color: var(--c-accent); }
+  .writing-entry h2 {
+    font-family: var(--font-mono);
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    line-height: 1.25;
+    margin: 0 0 0.6rem;
+  }
+  .writing-entry h2 a {
+    color: var(--c-ink);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-soft);
+  }
+  .writing-entry h2 a:hover,
+  .writing-entry h2 a:focus-visible { color: var(--c-accent-cream); }
+  .writing-entry-summary {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--c-ink-faint);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+</style>

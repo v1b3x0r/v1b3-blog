@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft && data.featured)).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+---
+
+{posts.length > 0 && (
+  <section id="writing" class="ground-writing" aria-labelledby="writing-title">
+    <h2 id="writing-title" class="ground-writing-title">writing</h2>
+    <ol class="writing-list">
+      {posts.map((post) => {
+        const published = post.data.publishedAt.toISOString().slice(0, 10);
+        return (
+          <li>
+            <a class="writing-row" href={`/writing/${post.id}/`}>
+              <time class="writing-date" datetime={published}>{published}</time>
+              <span class="writing-name">{post.data.title}</span>
+              <span class="writing-desc">{post.data.summary}</span>
+              <span class="writing-minutes">{post.data.readingMinutes} MIN</span>
+            </a>
+          </li>
+        );
+      })}
+    </ol>
+    <a class="ground-writing-all" href="/writing/">all writing →</a>
+  </section>
+)}

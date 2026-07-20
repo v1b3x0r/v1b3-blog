@@ -1,9 +1,9 @@
 ---
 title: "Squish"
-summary: "Visual Context Compression for video: turn a whole clip into one clean, timecoded contact sheet that any vision-language model can read."
+summary: "Give AI random access to video. Squish turns continuous footage into an addressable visual map that an agent can inspect, zoom, and cite."
 status: "active"
-kind: "visual context compressor"
-stack: ["TypeScript", "PWA", "client-side media", "Visual Context Compression"]
+kind: "agent video navigation primitive"
+stack: ["TypeScript", "CLI", "MCP", "ffmpeg", "hosted API"]
 site: "https://www.getsquish.app/"
 siteLabel: "Open Squish"
 repo: "https://github.com/v1b3x0r/squish-app"
@@ -11,19 +11,19 @@ featured: true
 order: 9
 ---
 
-Squish turns a video into one image an AI can actually look at.
+Squish gives AI agents random access to video.
 
-Drop in a clip. Squish samples frames across its full duration, lays them out in order, and stamps each one with its timecode. The result is a video contact sheet: the whole clip compressed into a single visual artifact, ready to paste into ChatGPT, Claude, Gemini, or any other vision-language model.
+It converts continuous footage into an addressable visual representation: timestamped contact sheets an agent can inspect, revisit, and progressively refine. The contact sheet is the first implementation of the primitive, not the final answer.
 
 ```text
-video → contact sheet → look at the grid → answer with timestamps
+video → overview → inspect the grid → zoom a time range → cite evidence
 ```
 
-That small pipeline is the product.
+The browser app makes that idea easy to use by hand. The CLI and MCP server let an agent run the navigation loop itself.
 
 ## The problem is not video playback
 
-When someone asks an AI "what happens in this clip?" the obvious input is the video itself. But many assistants cannot inspect raw video, and the ones that can spend more context, latency, and tokens to do it.
+When someone asks an AI "what happens in this clip?" the obvious input is the video itself. But a continuous stream is awkward for an agent that needs one precise moment. It either watches linearly, samples too little, or spends heavily to inspect far more footage than the question requires.
 
 Sending one frame does not solve the real problem either. A still image can show *what* happened, but not what changed before or after it.
 
@@ -35,31 +35,40 @@ A contact sheet keeps the frames that carry the sequence and drops the redundant
 
 Without timestamps, the grid is a pile of thumbnails. With them, it becomes something a model can reason over.
 
-## Visual Context Compression
+## The contact sheet is a map
 
-Squish is the first working form of a broader idea I call **Visual Context Compression**: turn temporal media into a spatial artifact a vision model can read in one pass.
+Squish began as **Visual Context Compression**: turn temporal media into a spatial artifact a vision model can read in one pass. Using it with agents revealed a bigger idea. The grid is not only compressed context. It is an index into the source timeline.
 
-It is not a video editor and it is not an AI model. It sits between the two — a preprocessing step that changes the shape of the context before the model sees it.
+Every cell carries an absolute timecode. An agent first reads a coarse overview, spots a relevant region, then asks Squish for a denser sheet of only that range. The addresses stay absolute, so the agent can repeat the process until the event becomes observable.
 
-That distinction matters. Squish does not summarize the clip for the model or decide which moment is important. It gives the model an ordered, time-anchored view of the source and lets the reasoning happen downstream.
+```text
+overview → spot 0:30 to 0:40 → zoom → spot 0:33 to 0:35 → cite 0:34.2
+```
 
-## Private by architecture
+Squish adjusts the lens. The model interprets what it sees.
 
-The conversion runs entirely in the browser. The source video does not leave the device. There is no upload server and no account required to use the free flow.
+## Local, hosted, or inside an AI client
 
-The free version produces 3×3 sheets and includes unlimited image shrinking. Squish Pro is a one-time upgrade that unlocks denser 4×4 through 6×6 sheets when a clip needs more temporal detail.
+The local CLI and stdio MCP server process everything on the user's machine. Nothing is uploaded, every density is free, and one command replaces the usual download, ffmpeg, frame extraction, and montage pipeline.
 
-Photo support follows the same instinct — make media smaller and easier to hand off — but video contact sheets are the reason Squish exists.
+```bash
+npx -y @getsquish/squish clip.mov
+npx -y @getsquish/squish mcp
+```
+
+For clients without a shared filesystem, the hosted MCP connector accepts a public video URL at `https://api.getsquish.app/mcp`. The hosted API and browser product cover workflows where remote processing is intentional.
+
+The privacy boundary stays explicit: local tools stay local; hosted paths move media through Squish.
 
 ## When it earns its keep
 
 Use Squish when:
 
-- a clip is too long to watch or longer than an assistant can ingest,
-- the question depends on what happens across time,
-- someone needs to find a moment and answer with a timestamp,
-- a screen recording needs to become one inspectable bug artifact,
-- an AI can understand images but cannot accept the video directly.
+- an agent needs to search a local video without uploading it,
+- a question depends on one moment inside a long recording,
+- a screen recording needs to become inspectable evidence,
+- the model can understand images but cannot navigate raw video,
+- repeated zooming is cheaper and clearer than processing the whole clip densely.
 
 Do not use it for a single still image or when audio is the only thing that matters. Compression is useful only when it preserves the evidence the question needs.
 
@@ -67,8 +76,8 @@ Do not use it for a single still image or when audio is the only thing that matt
 
 I like tools that do one translation cleanly enough to disappear.
 
-Squish does not ask the model to become a video player. It changes the input into something the model already knows how to read.
+Squish does not ask the model to become a video player. It gives the model a map and a way to move through it.
 
-One clip in. One honest artifact out. The rest is reasoning.
+The strongest proof has been dogfooding. Agents have used Squish to inspect demo recordings, locate evidence, and help prepare the submissions that describe Squish itself.
 
-Read the [guide for AI assistants](https://www.getsquish.app/for-ai-assistants) or the deeper explanation of [video contact sheets](https://www.getsquish.app/video-contact-sheet).
+Read the [guide for AI assistants](https://www.getsquish.app/for-ai-assistants), the [MCP reference](https://getsquish.gitbook.io/squish/reference/mcp), or the deeper explanation of [video contact sheets](https://www.getsquish.app/video-contact-sheet).
