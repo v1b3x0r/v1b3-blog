@@ -1,5 +1,6 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import Analytics from "@vercel/analytics/astro";
 import { AmbientRadio } from "../components/audio/AmbientRadio";
 import "../styles/ambient-radio.css";
 import "../styles/global.css";
@@ -29,6 +30,7 @@ const {
     <meta name="color-scheme" content="dark" />
     <title>{title}</title>
     <ClientRouter />
+    <Analytics />
   </head>
   <body class={pageClass}>
     <a href="#main" class="skip-link">skip to content</a>
