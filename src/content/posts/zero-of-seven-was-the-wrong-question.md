@@ -181,4 +181,4 @@ And sometimes the users are already inside—just not through the door everyone 
 
 ---
 
-**Source notes:** [Agent Day 42](https://app.notion.com/p/3a8051fc286081d3a829f9530c969c13) · [Agent Day 43](https://app.notion.com/p/3a9051fc28608110a09ac25113403aac) · [Agent Day 46](https://app.notion.com/p/3ae051fc286081ecbe18de105591c933) · [HomeLog Canon v0.9 Draft](https://app.notion.com/p/3a8051fc286081a0ae4edb42415d4b1b)
+**Source notes:** [Evidence Note 42: What 0/7 Actually Measured](https://melon-planarian-032.notion.site/Evidence-Note-42-What-0-7-Actually-Measured-3ae051fc286081c18bc1f07e190da819) · [Evidence Note 43: Four Commands in the Real World](https://melon-planarian-032.notion.site/Evidence-Note-43-Four-Commands-in-the-Real-World-3ae051fc2860816bac9fdc2970a156d9) · [Reasoning Note 46: We Measured the Wrong Surface](https://melon-planarian-032.notion.site/Reasoning-Note-46-We-Measured-the-Wrong-Surface-3ae051fc286081c695eec9b4724fc799) · [HomeLog Canon v0.9: Owner Attention Relief](https://melon-planarian-032.notion.site/HomeLog-Canon-v0-9-Owner-Attention-Relief-3ae051fc286081f69a4ee87db920c66c)
