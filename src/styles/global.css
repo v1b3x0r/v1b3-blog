@@ -43,11 +43,43 @@ main, .site-header, .site-footer {
 }
 
 .site-footer {
-  padding-block: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  padding-block: 2.5rem 7rem;
   color: var(--c-ink-faint);
   font-size: var(--fs-tiny);
   text-align: center;
+}
+
+.site-footer p {
+  margin: 0;
   font-style: italic;
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem 0.9rem;
+  font-style: normal;
+  letter-spacing: 0.06em;
+}
+
+.site-footer__links > span {
+  color: var(--c-ink-faint);
+}
+
+.site-footer__links a {
+  color: var(--c-ink-muted);
+  text-decoration: none;
+}
+
+.site-footer__links a:hover,
+.site-footer__links a:focus-visible {
+  color: var(--c-accent-cream);
 }
 
 .skip-link {
