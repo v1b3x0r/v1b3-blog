@@ -1,6 +1,6 @@
 .ambient-radio {
   position: fixed;
-  right: max(1rem, env(safe-area-inset-right));
+  left: 50%;
   bottom: max(1rem, env(safe-area-inset-bottom));
   z-index: 60;
   display: flex;
@@ -8,13 +8,18 @@
   gap: 0.65rem;
   max-width: min(32rem, calc(100vw - 2rem));
   padding: 0.55rem 0.7rem;
-  border: 1px solid var(--c-line);
-  border-radius: 4px;
-  background: color-mix(in srgb, var(--c-bg-deepest) 88%, transparent);
-  backdrop-filter: blur(12px);
+  border: 1px solid rgba(248, 212, 168, 0.2);
+  border-radius: 999px;
+  background: linear-gradient(105deg, rgba(31, 23, 24, 0.68), rgba(14, 13, 20, 0.56));
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  box-shadow:
+    0 14px 42px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.045);
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.04em;
+  transform: translateX(-50%);
 }
 
 .ambient-radio button,
@@ -55,7 +60,8 @@
 
 @media (max-width: 42rem) {
   .ambient-radio {
-    left: 1rem;
-    right: 1rem;
+    left: 50%;
+    right: auto;
+    width: calc(100vw - 2rem);
   }
 }
