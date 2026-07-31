@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useLastFm } from '../../hooks/useLastFm';
+import { isListeningAlive } from '../../lib/lastfm';
 import { usePayload } from '../layout/ContextResolver';
 
 function formatTimeForTz(date: Date, tz: string): string {
@@ -16,6 +18,7 @@ function tzShortLabel(tz: string): string {
 
 export function HUDStrip() {
   const payload = usePayload();
+  const lastfm = useLastFm();
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
@@ -29,6 +32,7 @@ export function HUDStrip() {
   const visitorTime = formatTimeForTz(now, visitorTz);
   const visitorCity = tzShortLabel(visitorTz);
   const cnxTime = formatTimeForTz(now, 'Asia/Bangkok');
+  const isLive = isListeningAlive(lastfm, now.getTime());
 
   return (
     <div className="hud-strip">
@@ -43,9 +47,12 @@ export function HUDStrip() {
           <span>{cnxTime} CNX</span>
         </>
       )}
-      <span className="hud-right">
+      <span
+        className={`hud-right ${isLive ? 'hud-right--live' : 'hud-right--quiet'}`}
+        aria-label={isLive ? 'founder activity detected' : 'no recent founder activity'}
+      >
         <span className="hud-live-dot" aria-hidden="true" />
-        <span>live</span>
+        <span>{isLive ? 'live' : 'quiet'}</span>
       </span>
     </div>
   );

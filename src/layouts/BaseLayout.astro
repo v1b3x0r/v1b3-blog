@@ -1,8 +1,9 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import Analytics from "@vercel/analytics/astro";
-import { AmbientRadio } from "../components/audio/AmbientRadio";
+import { ListeningDock } from "../components/audio/ListeningDock";
 import "../styles/ambient-radio.css";
+import "../styles/listening-dock.css";
 import "../styles/global.css";
 
 interface Props {
@@ -34,7 +35,7 @@ const {
   </head>
   <body class={pageClass}>
     <a href="#main" class="skip-link">skip to content</a>
-    <AmbientRadio client:load transition:persist />
+    <ListeningDock client:load transition:persist />
     <slot />
   </body>
 </html>
