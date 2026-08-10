@@ -1,44 +1,32 @@
+/* Two treatments, never overlapping the page column:
+   - default: a bar flush against the bottom edge, one row plus a chevron
+   - >= 100rem: an aside parked in the gutter beside the 70rem column,
+     wide enough only where the gutter can actually hold it */
+
 .listening-dock {
   position: fixed;
-  left: 50%;
-  bottom: max(1rem, env(safe-area-inset-bottom));
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 60;
-  width: min(28rem, calc(100vw - 2rem));
-  transform: translateX(-50%);
-  background: transparent;
   pointer-events: none;
 }
 
-.listening-banner {
+.listening-panel {
   position: relative;
-  display: grid;
-  grid-template-columns: 64px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.8rem;
-  min-height: 78px;
-  padding: 0.45rem 0.7rem 0.45rem 0.45rem;
   overflow: hidden;
-  border: 1px solid rgba(248, 212, 168, 0.24);
-  border-radius: 999px;
-  background:
-    linear-gradient(105deg, rgba(31, 23, 24, 0.7), rgba(14, 13, 20, 0.58));
+  border-top: 1px solid rgba(248, 212, 168, 0.24);
+  background: linear-gradient(105deg, rgba(31, 23, 24, 0.82), rgba(14, 13, 20, 0.74));
   -webkit-backdrop-filter: blur(20px) saturate(140%);
   backdrop-filter: blur(20px) saturate(140%);
-  box-shadow:
-    0 14px 42px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.045),
-    0 0 30px rgba(208, 138, 90, 0.09);
+  box-shadow: 0 -12px 38px rgba(0, 0, 0, 0.38);
   color: var(--c-ink);
   font-family: var(--font-mono);
+  padding-bottom: env(safe-area-inset-bottom);
   pointer-events: auto;
-  text-decoration: none;
-  transition:
-    border-color var(--dur-fast) var(--ease-soft),
-    transform var(--dur-fast) var(--ease-out),
-    box-shadow var(--dur-fast) var(--ease-soft);
 }
 
-.listening-banner::after {
+.listening-panel::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -48,43 +36,62 @@
   pointer-events: none;
 }
 
-.listening-banner:hover,
-.listening-banner:focus-visible {
-  border-color: rgba(240, 189, 142, 0.52);
-  box-shadow:
-    0 16px 48px rgba(0, 0, 0, 0.48),
-    inset 0 1px 0 rgba(255, 255, 255, 0.07),
-    0 0 34px rgba(208, 138, 90, 0.13);
-  transform: translateY(-2px);
-  outline: none;
+/* --- leading row --- */
+
+.listening-lead {
+  display: flex;
+  align-items: center;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: 0.75rem;
+}
+
+.listening-banner {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  gap: 0.7rem;
+  padding: 0.55rem 0;
+  color: inherit;
+  text-decoration: none;
 }
 
 .listening-banner__art {
-  width: 64px;
-  height: 64px;
+  width: 52px;
+  height: 52px;
   border: 1px solid rgba(248, 212, 168, 0.16);
-  border-radius: 50%;
+  border-radius: 6px;
   object-fit: cover;
-  box-shadow:
-    0 7px 18px rgba(0, 0, 0, 0.34),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.34);
 }
 
-.listening-banner__art--fallback {
+.listening-past__art {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(248, 212, 168, 0.12);
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.listening-art--fallback {
   display: grid;
   place-items: center;
   background:
     radial-gradient(circle at 32% 28%, rgba(240, 189, 142, 0.38), transparent 34%),
     linear-gradient(145deg, #2a1d24, #0a0c1c);
   color: var(--c-accent-cream);
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
+
+.listening-past__art.listening-art--fallback { font-size: 0.7rem; }
 
 .listening-banner__copy {
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 0.16rem;
+  gap: 0.14rem;
 }
 
 .listening-banner__status {
@@ -97,18 +104,10 @@
   text-transform: uppercase;
 }
 
-.listening-banner__pulse {
-  width: 5px;
-  height: 5px;
-  flex: none;
-  border-radius: 50%;
-  background: #34c759;
-  box-shadow: 0 0 8px rgba(52, 199, 89, 0.8);
-  animation: listeningPulse 1.8s ease-in-out infinite;
-}
-
 .listening-banner__title,
-.listening-banner__artist {
+.listening-banner__artist,
+.listening-past__title,
+.listening-past__meta {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -117,7 +116,7 @@
 .listening-banner__title {
   color: var(--c-ink);
   font-family: var(--font-sans);
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.01em;
 }
@@ -129,16 +128,158 @@
 }
 
 .listening-banner__invite {
-  align-self: end;
-  padding-bottom: 0.16rem;
   color: var(--c-ink-faint);
-  letter-spacing: 0.08em;
   font-size: 0.82rem;
+  letter-spacing: 0.08em;
 }
 
-@keyframes listeningPulse {
-  0%, 100% { opacity: 0.45; transform: scale(0.85); }
-  50% { opacity: 1; transform: scale(1.12); }
+.listening-banner:hover .listening-banner__invite,
+.listening-banner:focus-visible .listening-banner__invite { color: var(--c-accent-cream); }
+
+/* Playing gets moving bars; anything older gets a still dot. Last.fm reports
+   no playback position, so nothing here draws progress it cannot know. */
+
+.listening-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 9px;
+}
+
+.listening-eq span {
+  width: 2px;
+  height: 3px;
+  border-radius: 1px;
+  background: #34c759;
+  box-shadow: 0 0 6px rgba(52, 199, 89, 0.7);
+  animation: listeningEq 1.05s ease-in-out infinite;
+}
+
+.listening-eq span:nth-child(2) { animation-delay: 0.18s; }
+.listening-eq span:nth-child(3) { animation-delay: 0.36s; }
+
+.listening-banner__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--c-ink-faint);
+}
+
+/* --- chevron --- */
+
+.listening-toggle {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin-left: 0.15rem;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.listening-toggle__chevron {
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid var(--c-ink-muted);
+  border-bottom: 1.5px solid var(--c-ink-muted);
+  transform: translateY(2px) rotate(225deg);
+  transition: transform var(--dur-fast) var(--ease-soft);
+}
+
+.listening-toggle:hover .listening-toggle__chevron,
+.listening-toggle:focus-visible .listening-toggle__chevron {
+  border-color: var(--c-accent-cream);
+}
+
+.listening-dock--expanded .listening-toggle__chevron {
+  transform: translateY(-2px) rotate(45deg);
+}
+
+/* --- history --- */
+
+.listening-history {
+  display: none;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0.15rem 0.75rem 0.5rem;
+  border-top: 1px dashed rgba(248, 212, 168, 0.14);
+  list-style: none;
+}
+
+.listening-dock--expanded .listening-history { display: block; }
+
+.listening-past {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.42rem 0;
+  text-decoration: none;
+}
+
+.listening-past__copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.listening-past__title {
+  color: var(--c-ink-muted);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+}
+
+.listening-past__meta {
+  color: var(--c-ink-faint);
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+}
+
+.listening-past:hover .listening-past__title,
+.listening-past:focus-visible .listening-past__title { color: var(--c-ink); }
+
+/* --- aside: only where the gutter beside the 70rem column can hold it --- */
+
+@media (min-width: 100rem) {
+  .listening-dock {
+    left: auto;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    width: min(280px, calc((100vw - var(--max-w)) / 2 - 1.5rem));
+  }
+
+  .listening-panel {
+    border: 1px solid rgba(248, 212, 168, 0.24);
+    border-radius: 14px;
+    box-shadow:
+      0 14px 42px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.045),
+      0 0 30px rgba(208, 138, 90, 0.09);
+    transition: border-color var(--dur-fast) var(--ease-soft);
+  }
+
+  .listening-panel:hover { border-color: rgba(240, 189, 142, 0.46); }
+
+  .listening-lead,
+  .listening-history { padding-inline: 0.6rem; }
+
+  .listening-banner { grid-template-columns: 44px minmax(0, 1fr) auto; }
+
+  .listening-banner__art { width: 44px; height: 44px; }
+
+  .listening-banner__title { font-size: 0.82rem; }
+
+  /* the aside has room, so history is simply always open */
+  .listening-history { display: block; }
+  .listening-toggle { display: none; }
+}
+
+@keyframes listeningEq {
+  0%, 100% { height: 3px; opacity: 0.55; }
+  50% { height: 9px; opacity: 1; }
 }
 
 @keyframes listeningGlint {
@@ -146,30 +287,13 @@
   84% { transform: translateX(100%); }
 }
 
-.motion-still .listening-banner::after,
-.motion-still .listening-banner__pulse {
+.motion-still .listening-panel::after,
+.motion-still .listening-eq span {
   animation: none !important;
 }
 
-@media (max-width: 42rem) {
-  .listening-dock {
-    width: calc(100vw - 2rem);
-  }
-
-  .listening-banner {
-    grid-template-columns: 58px minmax(0, 1fr) auto;
-    min-height: 72px;
-  }
-
-  .listening-banner__art {
-    width: 58px;
-    height: 58px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .listening-banner::after,
-  .listening-banner__pulse {
-    animation: none;
-  }
+  .listening-panel::after,
+  .listening-eq span { animation: none; }
+  .listening-eq span { height: 6px; }
 }

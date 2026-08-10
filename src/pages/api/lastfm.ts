@@ -2,21 +2,19 @@ import type { APIRoute } from 'astro';
 import {
   buildYouTubeSearchUrl,
   pickLargestArtwork,
+  toListeningRows,
   type LastFmImage,
   type LastFmState,
+  type LastFmTrack,
 } from '../../lib/lastfm';
 
 export const prerender = false;
 
-interface LastFmTrack {
-  artist: { '#text': string };
-  name: string;
-  album?: { '#text': string };
-  image?: LastFmImage[];
-  url?: string;
-  date?: { uts: string };
-  '@attr'?: { nowplaying?: string };
-}
+// Three rows are shown. A fourth is requested because Last.fm reports the
+// now-playing track twice — once as playing, once as the newest scrobble —
+// and dropping that echo would otherwise leave the dock a row short.
+const TRACK_REQUEST_LIMIT = 4;
+const HISTORY_ROWS = 2;
 
 interface LastFmResponse {
   recenttracks?: {
@@ -47,6 +45,7 @@ function emptyState(): LastFmState {
     playedAt: null,
     activityAt: null,
     nowPlaying: false,
+    history: [],
   };
 }
 
@@ -61,7 +60,7 @@ export const GET: APIRoute = async () => {
     );
   }
 
-  const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(user)}&api_key=${apiKey}&format=json&limit=1`;
+  const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${encodeURIComponent(user)}&api_key=${apiKey}&format=json&limit=${TRACK_REQUEST_LIMIT}`;
 
   try {
     const r = await fetch(url);
@@ -72,7 +71,8 @@ export const GET: APIRoute = async () => {
       );
     }
     const data = (await r.json()) as LastFmResponse;
-    const t = data.recenttracks?.track?.[0];
+    const tracks = data.recenttracks?.track;
+    const t = tracks?.[0];
     if (!t) {
       return new Response(
         JSON.stringify(emptyState()),
@@ -121,6 +121,10 @@ export const GET: APIRoute = async () => {
       playedAt,
       activityAt: nowPlaying ? observedAt : playedAt,
       nowPlaying,
+      // Row 0 is the leading track above; only the tail is history. These rows
+      // keep whatever artwork the feed carried — the track.getInfo fallback
+      // stays reserved for the leading track so one request covers the dock.
+      history: toListeningRows(tracks).slice(1, 1 + HISTORY_ROWS),
     };
 
     return new Response(
