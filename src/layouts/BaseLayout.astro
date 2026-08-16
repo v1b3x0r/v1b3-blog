@@ -10,13 +10,24 @@ interface Props {
   title?: string;
   description?: string;
   pageClass?: string;
+  /** Absolute URL of the share card. Omitted pages get a text-only card, not a wrong one. */
+  image?: string;
+  imageAlt?: string;
+  ogType?: "website" | "article";
 }
 
 const {
   title = "v1b3topia",
   description = "building v1b3topia, somewhere in chiang mai. small systems by 97's INTP guy.",
   pageClass = "",
+  image,
+  imageAlt,
+  ogType = "website",
 } = Astro.props;
+
+// Astro.site is set in astro.config.mjs; canonical points at the www host the
+// apex redirects to, so shared links do not carry a redirect.
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
 <!doctype html>
@@ -30,6 +41,26 @@ const {
     <meta name="generator" content={Astro.generator} />
     <meta name="color-scheme" content="dark" />
     <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+    <meta property="og:site_name" content="v1b3topia" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {image ? (
+      <>
+        <meta property="og:image" content={image} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        {imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={image} />
+      </>
+    ) : (
+      <meta name="twitter:card" content="summary" />
+    )}
     <ClientRouter />
     <Analytics />
   </head>

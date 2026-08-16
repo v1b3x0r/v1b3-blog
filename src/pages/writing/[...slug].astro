@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
+import { Image, getImage } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { ContextResolver } from "../../components/layout/ContextResolver";
 import { HUDStrip } from "../../components/hud/HUDStrip";
@@ -22,9 +23,33 @@ const related = post.data.relatedProjects
   .filter((p): p is NonNullable<typeof p> => p !== undefined);
 
 const published = post.data.publishedAt.toISOString().slice(0, 10);
+
+// og:image — width-preserving on purpose. The source is 16:9 (1.78) and the card
+// is 1200x630 (1.90), so `cover` at this width scales to 1200x675 and trims ~22px
+// off the top and bottom. Nothing is lost horizontally, which matters here: this
+// picture's argument lives at its left and right edges (one figure leaving, one
+// arriving). A centre-crop to 1200x630 from the full frame would keep only the
+// people at the table and turn it into a picture of a meeting.
+const ogImage = post.data.heroImage
+  ? await getImage({
+      src: post.data.heroImage,
+      width: 1200,
+      height: 630,
+      fit: "cover",
+      position: "center",
+      format: "jpeg",
+    })
+  : undefined;
+const ogImageUrl = ogImage ? new URL(ogImage.src, Astro.site).href : undefined;
 ---
 
-<BaseLayout title={`${post.data.title} · v1b3topia`} description={post.data.summary}>
+<BaseLayout
+  title={`${post.data.title} · v1b3topia`}
+  description={post.data.summary}
+  image={ogImageUrl}
+  imageAlt={post.data.heroImageAlt}
+  ogType="article"
+>
   <ContextResolver client:load>
     <HUDStrip client:load />
   </ContextResolver>
@@ -42,6 +67,18 @@ const published = post.data.publishedAt.toISOString().slice(0, 10);
           )}
         </div>
       </header>
+      {post.data.heroImage && (
+        <figure class="post-hero">
+          <Image
+            src={post.data.heroImage}
+            alt={post.data.heroImageAlt ?? ""}
+            widths={[640, 960, 1280, 1600]}
+            sizes="(min-width: 900px) 860px, 100vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </figure>
+      )}
       <div class="post-body">
         <Content />
       </div>
@@ -88,6 +125,18 @@ const published = post.data.publishedAt.toISOString().slice(0, 10);
     letter-spacing: 0.04em;
   }
   .post-back:hover { color: var(--c-accent-warm); }
+  /* Sits between the meta line and the body, at the article's own measure —
+     wide enough to read the two figures at the edges, not so wide it becomes a
+     banner the reader has to scroll past to reach the first sentence. */
+  .post-hero {
+    margin: 2rem 0 0;
+  }
+  .post-hero img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+  }
   .post-article h1 {
     font-family: var(--font-mono);
     font-size: clamp(1.8rem, 4.5vw, 2.8rem);
