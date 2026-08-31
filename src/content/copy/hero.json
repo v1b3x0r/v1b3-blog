@@ -1,13 +1,12 @@
 {
+  "identity": {
+    "line": "one person in chiang mai. each of these belongs to a different world.",
+    "whoamiLabel": "whoami",
+    "whoamiHref": "/whoami/",
+    "mailLabel": "direct email to me",
+    "mailHref": "mailto:v1b3019@proton.me?subject=hello%20from%20v1b3.io"
+  },
   "variants": [
-    {
-      "key": "th-cnx-night",
-      "conditions": { "isThaiSpeaker": true, "localHour": [19, 30] },
-      "copy": {
-        "h1": "ดวงจันทร์ของเธอ คือดวงเดียวกัน",
-        "sub": "v1b3topia · ที่ไหนซักที่ในเชียงใหม่"
-      }
-    },
     {
       "key": "dual-night",
       "conditions": { "localHour": [19, 30] },
@@ -29,7 +28,7 @@
       "conditions": {},
       "copy": {
         "h1": "building v1b3topia, somewhere in chiang mai.",
-        "sub": "you came to watch — stay as long as you like."
+        "sub": ""
       }
     }
   ]

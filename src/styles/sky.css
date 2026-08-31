@@ -199,6 +199,63 @@
   text-shadow: 0 1px 6px rgba(0,0,0,0.5);
 }
 
+.hero-identity {
+  margin: 14px 0 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  line-height: 1.5;
+  color: var(--c-ink);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+}
+.hero-doors {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  margin: 10px 0 0;
+}
+.hero-door {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid transparent;
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  line-height: 1;
+  text-decoration: none;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  transition:
+    color var(--dur-fast) var(--ease-soft),
+    border-color var(--dur-fast) var(--ease-soft);
+}
+
+/* Primary: the way to reach a person. An outline is the whole treatment — no
+   fill, no shadow, square corners. It reads as pressable next to a whoami that
+   only offers to be read, without becoming the loudest thing on the sky. */
+.hero-mail {
+  border-color: var(--c-line-strong);
+}
+.hero-mail:hover,
+.hero-mail:focus-visible {
+  border-color: var(--c-accent);
+  color: var(--c-accent-cream);
+}
+.hero-mail-icon { flex: none; }
+
+/* Ghost: whoami. Present, quieter, and the same height so the row sits level. */
+.hero-door--ghost { color: var(--c-ink-muted); }
+.hero-door--ghost:hover,
+.hero-door--ghost:focus-visible {
+  border-color: var(--c-line);
+  color: var(--c-accent-cream);
+}
+
+@media (max-width: 600px) {
+  .hero-doors { justify-content: center; }
+}
+
 @media (max-width: 600px) {
   .hero-copy { left: var(--pad-side); right: var(--pad-side); max-width: none; bottom: 22%; text-align: center; }
   .hero-copy h1 { font-size: clamp(1.1rem, 4.5vw, 1.6rem); }

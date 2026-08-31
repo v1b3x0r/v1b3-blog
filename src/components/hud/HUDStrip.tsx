@@ -36,10 +36,8 @@ export function HUDStrip() {
 
   return (
     <div className="hud-strip">
-      <span className="hud-brand">V1B3TOPIA</span>
+      <a className="hud-brand" href="/" aria-label="v1b3topia — home">V1B3TOPIA</a>
       <span className="hud-sep">│</span>
-      <span>under construction</span>
-      <span className="hud-sep">·</span>
       <span>{visitorTime} {visitorCity}</span>
       {visitorCity.toLowerCase() !== 'bangkok' && (
         <>

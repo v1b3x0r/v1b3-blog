@@ -16,12 +16,7 @@ function ts(overrides: Partial<TimeSpace> = {}): TimeSpace {
 }
 
 describe('resolveHeroVariant', () => {
-  it('picks th-cnx-night for Thai speaker at 23:00', () => {
-    const r = resolveHeroVariant(ts({ isThaiSpeaker: true, localHourFloat: 23 }));
-    expect(r.h1).toMatch(/ดวงจันทร์/);
-  });
-
-  it('picks dual-night for English speaker at 23:00', () => {
+  it('picks dual-night at 23:00', () => {
     const r = resolveHeroVariant(ts({ localHourFloat: 23 }));
     expect(r.h1).toMatch(/under this moon/);
   });
@@ -37,6 +32,6 @@ describe('resolveHeroVariant', () => {
   });
 
   it('contains all variants from json', () => {
-    expect(heroData.variants.length).toBeGreaterThanOrEqual(4);
+    expect(heroData.variants.length).toBeGreaterThanOrEqual(3);
   });
 });

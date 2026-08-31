@@ -7,7 +7,6 @@ export interface HeroCopy {
 }
 
 interface Conditions {
-  isThaiSpeaker?: boolean;
   localHour?: [number, number];
 }
 
@@ -19,7 +18,6 @@ function matchesHourWindow(hour: number, window: [number, number]): boolean {
 }
 
 function matches(timeSpace: TimeSpace, cond: Conditions): boolean {
-  if (cond.isThaiSpeaker !== undefined && cond.isThaiSpeaker !== timeSpace.isThaiSpeaker) return false;
   if (cond.localHour && !matchesHourWindow(timeSpace.localHourFloat, cond.localHour)) return false;
   return true;
 }
@@ -32,3 +30,12 @@ export function resolveHeroVariant(timeSpace: TimeSpace): HeroCopy {
   }
   return heroData.variants[heroData.variants.length - 1].copy;
 }
+
+/**
+ * The line under the hero says who is here and offers a way to reach them. It
+ * deliberately counts nothing: a tally of what is running would need a
+ * published definition of "running" to mean anything, and would be one more
+ * hand-kept number to go stale. The ledger below already carries a status per
+ * row — a reader can weigh those better than a total can.
+ */
+export const heroIdentity = heroData.identity;

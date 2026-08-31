@@ -1,7 +1,7 @@
 ---
 title: "Living Memory Engine"
 summary: "A context composition engine for persistent agents. It decides what the model should see before inference without replaying an ever-growing transcript."
-status: "experimental"
+status: "active"
 kind: "agent context substrate"
 stack: ["TypeScript", "Vite", "IndexedDB", "Qwen Cloud", "Alibaba Cloud"]
 site: "https://cm.viibe.to/"

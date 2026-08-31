@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import whoami from "../content/copy/whoami.json";
+import "../styles/ground.css";
+import "../styles/whoami.css";
+
+// Every word on this page lives in whoami.json. Editing the copy should never
+// mean editing this file — the layout is decided, the wording is not.
+const { intro, blocks, notes } = whoami;
+---
+
+<BaseLayout
+  title="whoami · v1b3topia"
+  description="one person in chiang mai. i build worlds that remember themselves, so they keep running when nobody is watching."
+  pageClass="page-whoami"
+>
+  <main id="main" class="whoami">
+    <a class="whoami-home" href="/">← v1b3topia</a>
+
+    <h1 id="whoami-title" class="whoami-title">whoami</h1>
+
+    <div class="whoami-intro">
+      {intro.map((line) => <p>{line}</p>)}
+    </div>
+
+    {blocks.map((block) => (
+      <section class="whoami-block" aria-label={block.title}>
+        <h2 class="whoami-block-title">{block.title}</h2>
+        <ol class="whoami-list">
+          {block.rows.map((row) => (
+            <li class="whoami-row">
+              <span class="whoami-name">{row.name}</span>
+              <span class="whoami-where">
+                <a href={row.href} target="_blank" rel="noreferrer">
+                  {row.hrefLabel} <span aria-hidden="true">↗</span>
+                </a>
+                {row.aside && <span class="whoami-aside">{row.aside}</span>}
+              </span>
+              <span class="whoami-desc">{row.desc}</span>
+              <span class="whoami-status">{row.status}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+
+    <dl class="whoami-notes">
+      {notes.map((note) => (
+        <div class="whoami-note">
+          <dt>{note.label}</dt>
+          <dd>{note.text}</dd>
+        </div>
+      ))}
+    </dl>
+  </main>
+</BaseLayout>
