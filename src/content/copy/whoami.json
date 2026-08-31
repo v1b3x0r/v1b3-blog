@@ -1,0 +1,60 @@
+{
+  "intro": [
+    "one person in chiang mai · solo by default, a team when the work needs one",
+    "i build worlds that remember themselves, so they keep running when nobody is watching."
+  ],
+  "blocks": [
+    {
+      "title": "running in the real world",
+      "rows": [
+        {
+          "name": "living memory",
+          "href": "https://viibe.to/living-memory/",
+          "hrefLabel": "viibe.to/living-memory",
+          "aside": "npm @nature-labs/lme-mcp",
+          "desc": "a shared world your agents step into. tell one agent something today, ask a different one about it tomorrow.",
+          "status": "SELLING"
+        },
+        {
+          "name": "wink grooming",
+          "href": "https://winkgrooming.com/",
+          "hrefLabel": "winkgrooming.com",
+          "desc": "a cat hotel my partner and i designed, paid for and built from nothing. she runs it remotely for months at a time. its own agent answers guests now.",
+          "status": "LIVE"
+        },
+        {
+          "name": "homelog",
+          "href": "https://homelog.life/",
+          "hrefLabel": "homelog.life",
+          "desc": "access and timeline for a real building, built to outlive whoever is on shift.",
+          "status": "LIVE"
+        },
+        {
+          "name": "squish",
+          "href": "https://getsquish.app/",
+          "hrefLabel": "getsquish.app",
+          "desc": "agents read video instead of transcripts.",
+          "status": "LIVE"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    {
+      "label": "the through-line",
+      "text": "all of them are the same problem: a place that has to work when its owner is not there."
+    },
+    {
+      "label": "learned the hard way",
+      "text": "wink's customers were never on the website — they were on google maps the whole time. the site had been dark for years and was not worth reviving until now."
+    },
+    {
+      "label": "this month",
+      "text": "two hackathons · teaching a shop to talk to other people's agents"
+    },
+    {
+      "label": "open for",
+      "text": "local work in chiang mai. i'm easy to find, and i answer email."
+    }
+  ]
+}

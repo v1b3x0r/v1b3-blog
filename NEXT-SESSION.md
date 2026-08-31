@@ -4,6 +4,165 @@
 > like "this session" go stale silently and are how PRs #6–#8 fell out of this
 > file.
 
+## 2026-08-31 — whoami: the person is missing from the site (built, not deployed)
+
+Decided in a talk-only session, then built the same afternoon. It is committed
+on a branch and **not deployed** — deploy waits until the hackathon submissions
+are out, so nothing here has to be revisited under time pressure. `npm test`
+50/50 and `npm run build` both pass. The reasoning below is kept so it does not
+have to be rebuilt.
+
+### State
+
+- `/whoami` exists, with every word in `src/content/copy/whoami.json` — copy
+  changes never touch code.
+- Hero gained an identity line and two doors: `whoami →` as a ghost, and an
+  outline-only square button, `direct email to me`.
+- `under construction` is gone from the HUD strip. The wordmark is now a link
+  home.
+- Living Memory's project page says `active`, which is what the ledger and
+  `/whoami` had already started assuming.
+- Contact is `v1b3019@proton.me` everywhere (it was `v1b3@getsquish.app`, an
+  address on a product's domain).
+- **The `client work` block is held back.** It is written up below and belongs on
+  the page, but it names someone else's business and that conversation should
+  happen in person and once, not by shipping first. Restore it by adding the
+  block back to `whoami.json`; nothing else has to change.
+
+### Rejected, so it is not proposed again
+
+The hero briefly counted: *"one person, ten worlds, five of them running."* The
+count was derived from the collection so it could not drift, and it was still
+removed. A total means nothing without a published definition of "running", and
+publishing one means maintaining one — while the ledger already carries a status
+per row, which a reader can weigh better than a sum can. The same note sits above
+`heroIdentity` in `src/lib/text-variants.ts`.
+
+**The problem.** The site has no `/about` and never says a human is behind it.
+`src/pages/` is `index`, `projects/[...slug]`, `writing/`, `api/`, `404` — the
+only path back to a person is three footer links. A stranger met at a meetup has
+no URL that can be said out loud. Read cold, the homepage says
+`under construction` beside `● live`, calls someone `FOUNDER` of nothing named,
+places him `somewhere` in Chiang Mai, invites him to *watch*, and lists ten
+projects with no links and no users. Nothing on the page has a customer: every
+line says what a thing **is**, never who uses it. Compare winkgrooming.com,
+built by the same person, where every line has a cat, a price, and a phone
+number.
+
+**The through-line that came out of it** — all four shipped things are the same
+problem: *a place that has to work when its owner is not there.* Wink is a shop
+whose owner is away for months. HomeLog is a building whose shift keeps
+changing. Living Memory is a project whose agent gets replaced by a different
+vendor's agent. Squish is footage nobody has time to watch. This is the sentence
+that turns "ten unrelated side projects" into one obsession.
+
+### Decided
+
+1. **Both** a new line in the hero **and** a separate page. Different lengths.
+2. Page lives at **`/whoami`**; `/about` redirects to it at Cloudflare.
+3. No photo, no legal name. Same ledger grammar as `ProjectList`/`WritingList` —
+   numbered-feeling rows, mono name, italic description, status right-aligned.
+4. **Living Memory sits at the top, tagged `SELLING`** — it is the only row that
+   asks for money, and the status column should say so. Wink comes next as its
+   *evidence*, not as a competitor.
+5. Wink can name the relationship: designed and paid for with his partner, built
+   from nothing; he knows the whole, not the daily operations. Keep it short.
+6. Being solo is stated as a **mode, not a confession**:
+   `solo by default · a team when the work needs one`. People are not afraid of
+   one person; they are afraid of messaging into silence — which is why
+   `i answer email` is the hardest-working line on the page.
+7. The invitation to hire sits there quietly, never as a button. Same posture as
+   Wink's `จองผ่าน LINE`: always present, never shouting.
+8. **Copy may not promise physical control.** See House rules.
+
+### The rows, and where the old studio name goes
+
+Two blocks, so that work done *for other people* is not confused with work that
+is his own. Living Memory leads because it is the only row that asks for money.
+Wink follows immediately as its evidence, not as a competitor.
+
+```
+running in the real world
+
+  living memory   viibe.to/living-memory   a shared world your agents step into.
+                  npm @nature-labs/lme-mcp  tell one agent today, ask a different
+                                            one tomorrow.                 SELLING
+  wink grooming   winkgrooming.com          a cat hotel my partner and i designed,
+                                            paid for and built from nothing. she
+                                            runs it remotely for months at a time.
+                                            its agent answers guests now.    LIVE
+  homelog         homelog.life              access and timeline for a real
+                                            building, built to outlive whoever
+                                            is on shift.                     LIVE
+  squish          getsquish.app             agents read video instead of
+                                            transcripts.                     LIVE
+
+client work
+
+  beachdazebag    beachdazebag.com          a Thai bag label that sells almost
+                                            entirely to buyers abroad. i have
+                                            kept its site alive since 2016,
+                                            under the name Kode Studio.      LIVE
+```
+
+**`kode.studio` gets a 301 to `/whoami`, and no site of its own** (decided
+2026-08-31). It currently resolves to nothing at all — the apex has no A or
+CNAME record, so `www` answers HTTP 530 and the credit link in
+beachdazebag.com's footer has been landing on a Cloudflare error page for years,
+on a site taking roughly 40k pageviews a month. A redirect rule stops that in
+two minutes and costs nothing to maintain: no hosting, no worker, no
+certificate.
+
+Giving the old studio name a second website was considered and rejected. One
+site already fails to keep up with reality; a second identity doubles exactly
+the debt this whole entry exists to pay down, and "client work" already has a
+home — it is a row on this page, not a domain. But the name itself is worth
+keeping: *Kode Studio* reads like something you can hire, and *v1b3topia* reads
+like an art project. So the name survives inside somebody else's sentence, which
+is all a name has ever needed. When the footer on beachdazebag.com is eventually
+changed to point at v1b3 instead, the domain can be allowed to lapse — check
+`squish.kode.studio` (Vercel) and `chat.kode.studio` (delegated to DigitalOcean)
+before that happens.
+
+One courtesy, and it is why the block is held back: the client row names a real
+person's business. Mention it to her before it ships, even though the credit is
+already public in her own footer — and mention it once, in a real conversation,
+rather than in passing.
+
+### Hero changes
+
+Keep `building v1b3topia, somewhere in chiang mai.` Add one line under it, which
+is also the entrance to `/whoami`:
+
+> `one person, ten worlds, four of them running.`
+
+It does three jobs at once: says a single human is here, gives a stranger
+something checkable, and opens the funnel. It is honest in both directions — it
+admits the other six are not running, which the ledger below already says.
+
+`you came to watch — stay as long as you like` **moves down** to just above the
+footer and becomes a farewell rather than an instruction to stay passive:
+
+> `stay as long as you need.`
+> `nothing exciting today, but everything here is running.`
+
+### Also true, fix while in there
+
+- **`under construction` has to go.** It contradicts `● live` on the same strip,
+  it is no longer true with four things running, and it violates this repo's own
+  rule that HUD data must be real or absent. It is a two-second permission to
+  close the tab.
+
+### Explicitly out of scope this round
+
+- The ten-row homepage ledger keeps no links, versions or users. That is the
+  other half of the cold read and it doubles the work — ship `/whoami` first.
+- The `WUTTY.WORLD`-style "world browser" (decaying worlds, `SEND YOUR AGENT`
+  MCP endpoint, traces left by visiting agents) is parked, not dead. Its table
+  needs N worlds to be worth drawing and there is exactly one. Revisit after the
+  Wink WebMCP work stands up, since that is the same shape pointed at a shop
+  instead of at a person.
+
 ## 2026-08-10 — listening history + writing order (PR #9)
 
 - **Fixed: new posts were being hidden from the homepage.** `WritingList.astro`
@@ -87,6 +246,15 @@
    schema, or repurpose it as an explicit pin.
 
 ## House rules
+
+- **Copy may not promise physical control** (2026-08-31). A world does not
+  "have a body", and sharing a world never grants the right to touch anything.
+  Membership gets an agent into the room; it never gets it the keys. Physical
+  authority lives behind a separate HomeLog boundary, is delegated by a specific
+  human, and is checked server-side — never inferred from world membership or an
+  agent's claim about itself. Public wording should stay future-facing without
+  overclaiming: a world connects agents, people, and a business's own knowledge
+  today, and outside capabilities only *when granted*.
 
 - **HUD data must be real or absent.** No baked or stale "founder activity" props.
   Live fetch with graceful null — see the `FounderRow` weather/lastfm pattern.

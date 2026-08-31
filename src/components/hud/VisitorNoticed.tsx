@@ -18,10 +18,7 @@ export function VisitorNoticed() {
     const visitorHour = Math.floor(payload.timeSpace.localHourFloat);
     const visitorMin = Math.floor((payload.timeSpace.localHourFloat % 1) * 60);
     const timeStr = `${String(visitorHour).padStart(2, '0')}:${String(visitorMin).padStart(2, '0')}`;
-    setText(payload.timeSpace.isThaiSpeaker
-      ? 'เธอแวะมาดู? นั่งก่อนได้'
-      : `✓ visitor noticed · ${timeStr} · ${visitorTz}`
-    );
+    setText(`✓ visitor noticed · ${timeStr} · ${visitorTz}`);
 
     const onInteract = () => {
       sessionStorage.setItem(STORAGE_KEY, '1');

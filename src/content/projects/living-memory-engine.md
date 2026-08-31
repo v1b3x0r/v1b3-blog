@@ -1,11 +1,11 @@
 ---
-title: "Living Memory Engine"
-summary: "A context composition engine for persistent agents. It decides what the model should see before inference without replaying an ever-growing transcript."
-status: "experimental"
-kind: "agent context substrate"
+title: "Living Memory"
+summary: "An ecosystem combining world models and memory for AI agents: a shared environment where several humans and several agents work on the same thing and remember it afterwards."
+status: "active"
+kind: "shared world + memory for agents"
 stack: ["TypeScript", "Vite", "IndexedDB", "Qwen Cloud", "Alibaba Cloud"]
-site: "https://cm.viibe.to/"
-siteLabel: "Meet Chiang Mai"
+site: "https://viibe.to/living-memory/"
+siteLabel: "viibe.to/living-memory"
 repo: "https://github.com/v1b3x0r/living-memory-engine"
 relatedProjects:
   - slug: "squish-app"
@@ -14,9 +14,16 @@ featured: true
 order: 10
 ---
 
-Living Memory Engine decides what an AI model should see before it begins inference.
+Living Memory is a place several people and several agents can share. Each person
+keeps the agent they already use — different tools, different setups — and brings
+it into the same world. The agents face the same environment, work on the same
+job, and what happens there is still there tomorrow, for whichever agent shows up
+next.
 
-It sits between a growing world of conversation, memory, plans, live signals, and self-state, and the small working context sent to the model for one turn.
+Underneath it is an engine that decides what an AI model should see before it
+begins inference. It sits between a growing world of conversation, memory, plans,
+live signals, and self-state, and the small working context sent to the model for
+one turn.
 
 ```text
 conversation + memory + live + plans + self-state
@@ -63,7 +70,10 @@ It also documents a failure: when a preference changes, both the old and new val
 - 177 automated tests at the hackathon submission point
 - a live deployment on Alibaba Cloud Simple Application Server
 
-This is still an experimental, single-user system. It is not a solved theory of memory, and it is not yet the place to entrust an entire life. What it proves is the smaller thesis underneath it:
+That list is the hackathon proof of concept, and it has since grown into a hosted,
+multi-user product — the engine below is what the shared world is built on, not
+the whole of it. It is still not a solved theory of memory, and not yet the place
+to entrust an entire life. What it proves is the smaller thesis underneath it:
 
 **Memory is not only what an agent stores. It is how the agent decides what deserves to become working context now.**
 

@@ -150,3 +150,19 @@
   .writing-desc { grid-column: 1 / -1; margin-top: 0.25rem; }
   .writing-minutes { grid-column: 1 / -1; text-align: left; }
 }
+
+/* The visitor is told they may leave, not told to sit still — this line used to
+   sit under the hero as "you came to watch", where it read as an instruction to
+   stay passive. At the end of the page it is a goodbye instead. */
+.ground-farewell {
+  width: min(100% - var(--pad-side) * 2, var(--max-w));
+  margin: 3.5rem auto 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--c-line);
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: var(--fs-meta);
+  line-height: 1.7;
+  color: var(--c-ink-faint);
+  text-align: center;
+}
