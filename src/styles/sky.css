@@ -299,3 +299,20 @@
     text-shadow: 0 1px 8px rgba(0,0,0,0.85);
   }
 }
+
+/* Short phones (iPhone SE and anything under ~700px tall). The hero grew by an
+   identity line and two doors, which on a 60vh sky is enough to push it up over
+   the moon and its caption — measured at 320x568 the copy started 107px above
+   the caption instead of below it, and at 375x667 it still overlapped by 43px.
+   Taller phones (390x844 and up) already clear it and are left alone.
+   The sky gets a floor of 460px so the band between caption and ridge is tall
+   enough to hold the copy, and the moon rides higher to pay for it. */
+@media (max-width: 600px) and (max-height: 700px) {
+  .sky { min-height: 460px; }
+  .moon-wrap { top: 6%; }
+  .moon-caption { top: 18%; }
+  .hero-copy { bottom: 30%; }
+  .hero-identity { margin-top: 9px; }
+  .hero-doors { margin-top: 7px; gap: 0.4rem 1rem; }
+  .hero-door { padding: 0.4rem 0.7rem; }
+}
