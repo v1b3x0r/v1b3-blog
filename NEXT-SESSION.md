@@ -4,13 +4,129 @@
 > like "this session" go stale silently and are how PRs #6–#8 fell out of this
 > file.
 
-## 2026-08-31 — whoami: the person is missing from the site (built, not deployed)
+## 2026-09-01 — /whoami is live
 
-Decided in a talk-only session, then built the same afternoon. It is committed
-on a branch and **not deployed** — deploy waits until the hackathon submissions
-are out, so nothing here has to be revisited under time pressure. `npm test`
-50/50 and `npm run build` both pass. The reasoning below is kept so it does not
-have to be rebuilt.
+Shipped in the small hours: **PR #10** (`8c391e6`, five commits) and **PR #11**
+(`17bbf05`, one line). Verified against production by requesting the real URLs
+after the deploy, not by trusting a green build — `/whoami/` 200, and all four
+shapes of `/about` (with and without `www`, with and without the trailing slash)
+land on it.
+
+The plan below was built as written, then changed on contact with a phone. What
+follows is what is true now; where it disagrees with the 2026-08-31 entry, this
+wins.
+
+### Changed after reading it on a real device
+
+- **The hero's identity sentence was removed entirely.** It shipped as
+  `one person in chiang mai. each of these belongs to a different world.`, was
+  read cold on a phone, and cut the same night: it stated something true without
+  connecting to anything a reader could act on. The same idea works on `/whoami`,
+  which has a page around it to give it meaning. **The `whoami →` door is the
+  entrance, not a sentence.** `identity.line` is gone from `hero.json`; the
+  labels and hrefs stay.
+- **The copy sits low now** — `bottom: 22%` on mobile, `26%` on short phones (was
+  32% and 30%). Everything had been stacking into the middle of the sky with a
+  wide empty band beneath it. Anchoring the copy near the ridge opens the middle.
+  17% was tried and is worse: the mail button lands across the horizon line.
+- **Wider gap before the doors**, 10px → 22px. They are pressed, not read; at
+  line spacing the row read as a third line of the paragraph.
+- **The Thai hero variants and `isThaiSpeaker` were deleted.** The shell is
+  English only. Thai inside `/writing` stays — that is English prose about Thai
+  things.
+
+### Mobile sky: a zero-sum band, and a caption that has always tucked
+
+Codex flagged the hero overlapping the moon on short phones. Real, and worse than
+reported: at 320x568 the copy started **107px above** the caption, covering the
+moon; at **375x667 — an iPhone SE 2/3, not an exotic size** — it still overlapped
+by 43px. At 390x844 there was already clearance. Fixed with a rule scoped to
+`(max-width: 600px) and (max-height: 700px)`: a 460px floor under the sky, moon
+and caption higher, tighter spacing.
+
+Codex then flagged the caption overlapping the bottom of the moon. **That one was
+declined, with measurements.** It predates all of this — on `main` it measures
+-10px, on this branch -9px — and the sky is a single zero-sum band: pushing the
+caption down to clear the moon takes the clearance straight back off the hero
+(at `caption: 21%` the hero overlaps the caption again). Clearing all three gaps
+needs a taller sky (`sky 490px · moon 4% · caption 18% · hero 29%`), which costs
+86% of a 568px screen. Not taken; available if it is ever wanted.
+
+**Before accepting any finding of the form "your change caused X", measure the
+same distance on `main` first.** Reading the diff alone will keep producing this
+one.
+
+### Routing — and why none of it could live at Cloudflare
+
+- **`v1b3.io` is DNS-only at Cloudflare on both apex and `www`** (grey cloud,
+  CNAME straight to Vercel). A redirect rule on that zone saves fine, shows as
+  active, and **never runs**. Proven with `curl -I`: `server: Vercel`, no
+  `cf-ray`. Check `proxied` before ever proposing a rule for this domain again.
+- So `/about` → `/whoami` lives in **`vercel.json`**, next to the page it points
+  at, and ships with it. It needs both `/about` and `/about/` — `source` is an
+  exact path match, and the assumption that Vercel normalises the trailing slash
+  away was wrong and cost a 404 on a live path (PR #11).
+- **`kode.studio` now 301s to `https://www.v1b3.io/` — the homepage, not
+  `/whoami`.** This supersedes the decision recorded on 2026-08-31. Someone
+  arriving through kode.studio is following an old credit link, not looking for
+  the person; the homepage gives them more. `/about` already serves the people
+  who are looking. **Do not "fix" this to point at `/whoami`.**
+- The apex had **no DNS record at all** — that, not the rule, was why it failed.
+  An `AAAA @ 100::` **proxied** gives the proxy something to answer. The HTTP 530
+  that had been breaking the credit link in beachdazebag.com's footer for years
+  is now gone. `squish.kode.studio` still answers 200, so the domain still cannot
+  be allowed to lapse; `chat.kode.studio` is already dead on its own.
+- A 301 is cached in visitors' browsers and cannot be taken back, so the rule was
+  deliberately a **302 to the homepage** until `/whoami` was actually deployed,
+  then promoted to 301.
+
+### Living Memory, not Living Memory Engine
+
+The founder settled a single public name and sentence for the whole thing (first
+used on his HackerEarth profile), and the site was still describing the first
+piece of it:
+
+> **Living Memory** — https://viibe.to/living-memory — Dec 2025 to present.
+> An ecosystem combining World Models and Memory for AI agents, featuring a
+> digital environment for multi-human and multi-agent collaboration.
+
+The project page was retitled, its summary rewritten to the ecosystem framing,
+its `site` moved from `cm.viibe.to` to `viibe.to/living-memory`, and the stale
+line "This is still an experimental, single-user system" corrected — it is
+hosted, multi-user, and the one row on the ledger that asks for money.
+
+**The dated posts under `/writing` still say "Living Memory Engine" on purpose.**
+They are accounts of a particular week, not product surfaces; renaming the past
+would make them lie about what existed at the time.
+
+There was never a canonical description before this because the thing was never
+designed top-down — engine first, then the stdio MCP, then HTTP, then rooms
+several people could enter, and for a while it was genuinely unclear what it was.
+The blurb is a resolution of real ambiguity, not a marketing line.
+
+**One tension, deliberately left standing:** the GTM direction of 2026-08-28 says
+to lead with discoverable terms (living memory / shared memory / context /
+handoff) and reveal the shared-world model afterwards. This blurb leads with
+"World Models". Both are right for different readers — jargon-forward suits a
+judged technical audience, discoverable suits a stranger arriving cold. Ask which
+audience a surface serves before rewriting one into the other.
+
+### Still held back
+
+**The `client work` block (beachdazebag / Kode Studio) is still not on the page**
+— unchanged, and unchanged for a non-technical reason. It names someone else's
+business and that conversation happens in person, once. Restoring it is an edit
+to `whoami.json` and nothing else.
+
+---
+
+## 2026-08-31 — whoami: the person is missing from the site (the reasoning)
+
+Decided in a talk-only session, then built the same afternoon. **Shipped
+2026-09-01 — see the entry above for what actually went live and where it
+departs from this.** Deploy had been waiting on the hackathon submissions, which
+are out. The reasoning below is kept because it is still the reasoning; only the
+outcomes moved.
 
 ### State
 
@@ -105,8 +221,9 @@ client work
                                             under the name Kode Studio.      LIVE
 ```
 
-**`kode.studio` gets a 301 to `/whoami`, and no site of its own** (decided
-2026-08-31). It currently resolves to nothing at all — the apex has no A or
+**`kode.studio` gets a 301 and no site of its own** (decided 2026-08-31;
+**superseded 2026-09-01 — the 301 goes to the homepage, not `/whoami`**, see the
+top entry). It currently resolves to nothing at all — the apex has no A or
 CNAME record, so `www` answers HTTP 530 and the credit link in
 beachdazebag.com's footer has been landing on a Cloudflare error page for years,
 on a site taking roughly 40k pageviews a month. A redirect rule stops that in
@@ -233,6 +350,10 @@ footer and becomes a farewell rather than an instruction to stay passive:
    Day 26–27, narrative-over-feature). Adjacent to the shipped 0/7 post but not
    the same argument — decide whether it still stands alone.
 2. **Project pages older than reality** (dates verified 2026-08-10):
+   - ~~`living-memory-engine.md`~~ — brought current 2026-09-01: retitled to
+     *Living Memory*, ecosystem summary, `site` moved to viibe.to/living-memory,
+     and the "experimental, single-user" claim corrected. **The remaining pages
+     have the same disease** — a label that was true the day it was written.
    - `hi-introvert.md` — 2026-05-26, predates the real npm publish (1.3.0 is live)
    - `homelog.md` — 2026-06-13, but that edit was only the dead-link fix; the page
      still tells the pre-harness-narrative story while homelog.life is live with
@@ -244,8 +365,29 @@ footer and becomes a farewell rather than an instruction to stay passive:
    so nothing shows, but the slot needs a real source if it should show anything.
 4. **`featured` is dead for posts** (see 2026-08-10). Decide: drop it from the
    schema, or repurpose it as an explicit pin.
+5. **Project pages carry no dates.** The frontmatter has `status`, `kind`,
+   `stack`, `order` — nothing for "Dec 2025 to present", which is how the work is
+   described elsewhere now. Adding the field touches every project, so it was
+   deliberately not done on 2026-09-01. Worth a decision, not a reflex.
 
 ## House rules
+
+- **Measure on `main` before accepting "your change caused X"** (2026-09-01). A
+  reviewer reading only the diff will attribute pre-existing behaviour to
+  whatever is new beside it. The moon caption has tucked ~9px under the disc on
+  mobile since long before `/whoami`; an afternoon can be spent "fixing" it, and
+  the fix takes the clearance straight off the hero. Get the number on `main`
+  first, then decide.
+
+- **A green build says nothing about redirects** (2026-09-01). `npm test` 50/50
+  and a clean `npm run build` both passed while `/about/` returned 404 in
+  production. Redirects are platform behaviour, not code that runs in a test —
+  request the real URLs after every deploy that touches routing.
+
+- **Check `proxied` before proposing anything at Cloudflare** (2026-09-01).
+  `v1b3.io` is grey-cloud on both hostnames, so a rule there saves successfully,
+  displays as active, and never executes. Silent failure that looks like success.
+  Redirects for this site belong in `vercel.json`.
 
 - **Copy may not promise physical control** (2026-08-31). A world does not
   "have a body", and sharing a world never grants the right to touch anything.
