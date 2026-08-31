@@ -48,7 +48,6 @@ export function HeroCopy() {
         })()}
       </h1>
       {copy.sub && <p className="hero-sub">{copy.sub}</p>}
-      <p className="hero-identity">{heroIdentity.line}</p>
       <p className="hero-doors">
         <a className="hero-door hero-door--ghost" href={heroIdentity.whoamiHref}>
           {heroIdentity.whoamiLabel} <span aria-hidden="true">→</span>

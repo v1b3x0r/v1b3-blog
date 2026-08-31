@@ -32,10 +32,12 @@ export function resolveHeroVariant(timeSpace: TimeSpace): HeroCopy {
 }
 
 /**
- * The line under the hero says who is here and offers a way to reach them. It
- * deliberately counts nothing: a tally of what is running would need a
- * published definition of "running" to mean anything, and would be one more
- * hand-kept number to go stale. The ledger below already carries a status per
- * row — a reader can weigh those better than a total can.
+ * Labels and destinations for the two doors under the hero. There is no
+ * sentence here any more: the homepage tried one ("one person in chiang mai,
+ * each of these belongs to a different world") and it led nowhere a reader
+ * could follow — the same idea does its job on /whoami, where there is a page
+ * around it. An earlier draft counted what was running, which was rejected for
+ * a different reason: a total needs a published definition of "running" to mean
+ * anything, and the ledger below already carries a status per row.
  */
 export const heroIdentity = heroData.identity;

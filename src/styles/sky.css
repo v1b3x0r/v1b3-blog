@@ -199,20 +199,15 @@
   text-shadow: 0 1px 6px rgba(0,0,0,0.5);
 }
 
-.hero-identity {
-  margin: 14px 0 0;
-  font-family: var(--font-mono);
-  font-size: var(--fs-meta);
-  line-height: 1.5;
-  color: var(--c-ink);
-  text-shadow: 0 1px 8px rgba(0,0,0,0.6);
-}
+/* The doors are a different kind of thing from the sentence above them — one is
+   read, the other is pressed — so the gap is wider than line spacing. Anything
+   tighter and the row reads as a third line of the paragraph. */
 .hero-doors {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem 1.5rem;
-  margin: 10px 0 0;
+  margin: 22px 0 0;
 }
 .hero-door {
   display: inline-flex;
@@ -288,10 +283,10 @@
     transform: translateX(-50%);
     text-align: center;
   }
-  /* place hero copy between moon caption and mountain ridges */
-  .hero-copy {
-    bottom: 32%;
-  }
+  /* Hero copy sits low, close to the ridge line, so the air opens up between it
+     and the moon instead of the whole page stacking into the middle. The value
+     lives in the first mobile block above (22%); repeating it here only made
+     the two disagree. */
   .hero-copy h1 {
     text-shadow: 0 1px 16px rgba(0,0,0,0.85), 0 0 4px rgba(0,0,0,0.7);
   }
@@ -311,8 +306,7 @@
   .sky { min-height: 460px; }
   .moon-wrap { top: 6%; }
   .moon-caption { top: 18%; }
-  .hero-copy { bottom: 30%; }
-  .hero-identity { margin-top: 9px; }
+  .hero-copy { bottom: 26%; }
   .hero-doors { margin-top: 7px; gap: 0.4rem 1rem; }
   .hero-door { padding: 0.4rem 0.7rem; }
 }
