@@ -11,7 +11,7 @@ heroImage: ../../assets/memory-with-more-directions.png
 heroImageAlt: "An illustrated Living Memory poster showing memory gaining more directions: continuity across agents and devices, history over time, relationships between places, and deeper discovery through connected objects."
 ---
 
-On July 21, I published an article called [*I Didn't Want to Start a New Chat*](/writing/i-didnt-want-to-start-a-new-chat/).
+On July 21, I published an article called [_I Didn't Want to Start a New Chat_](/writing/i-didnt-want-to-start-a-new-chat/).
 
 It ended with the same annoyance that started the project:
 
@@ -126,8 +126,9 @@ Individually, these are unremarkable memories. Together, they begin forming rela
 ```text
               MEETING ROOM
                    │
-                   │
-COUNTER ───── HALLWAY ───── RESTROOM
+RESTROOM  ──────── │  ──────────────────────────│ WINDOW
+                   │  ──────  SITTING AREA  ────│ WINDOW
+COUNTER BAR ─── HALLWAY ───── SITTING AREA  ────│ WINDOW
                    │
                  STAIRS
 ```
